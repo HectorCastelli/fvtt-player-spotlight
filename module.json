@@ -1,0 +1,33 @@
+{
+    "id": "fvtt-player-spotlight",
+    "title": "Player Spotlight",
+    "description": "<p>A foundryVTT module that helps GMs track who is getting the spotlight during sessions and campaigns.</p>",
+    "version": "0.0.1",
+    "type": "module",
+    "library": "false",
+    "compatibility": {
+        "minimum": "14",
+        "verified": "14"
+    },
+    "url": "https://github.com/HectorCastelli/fvtt-player-spotlight",
+    "readme": "https://github.com/HectorCastelli/fvtt-player-spotlight/blob/main/README.md",
+    "authors": [
+        {
+            "name": "Hector Castelli Zacharias",
+            "url": "https://github.com/HectorCastelli"
+        }
+    ],
+    "esmodules": [
+        "src/main.js"
+    ],
+    "styles": [
+        "styles/main.css"
+    ],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        }
+    ]
+}
