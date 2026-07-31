@@ -1,9 +1,9 @@
-import constants from '../constants.js';
+import { MODULE_NAME, DATA_MODE, DATA } from '../constants.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
     static DEFAULT_OPTIONS = {
-        id: constants.MODULE_NAME,
+        id: MODULE_NAME,
         tag: 'div',
         window: {
             icon: "fa-solid fa-person-rays",
@@ -25,10 +25,10 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             template: 'templates/generic/tab-navigation.hbs', // Foundry-provided generic template
         },
         session: {
-            template: `modules/${constants.MODULE_NAME}/src/templates/session.hbs`,
+            template: `modules/${MODULE_NAME}/src/templates/session.hbs`,
         },
         campaign: {
-            template: `modules/${constants.MODULE_NAME}/src/templates/campaign.hbs`,
+            template: `modules/${MODULE_NAME}/src/templates/campaign.hbs`,
         },
     }
 
@@ -40,14 +40,14 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
                 tabs: [
                     {
                         id: 'session',
-                        label: 'fvtt-player-spotlight.viewMode.session.title',
-                        tooltip: 'fvtt-player-spotlight.viewMode.session.description',
+                        label: 'fvtt-player-spotlight.data.session.title',
+                        tooltip: 'fvtt-player-spotlight.data.session.description',
                         icon: 'fa-solid fa-calendar-day',
                     },
                     {
                         id: 'campaign',
-                        label: 'fvtt-player-spotlight.viewMode.campaign.title',
-                        tooltip: 'fvtt-player-spotlight.viewMode.campaign.description',
+                        label: 'fvtt-player-spotlight.data.campaign.title',
+                        tooltip: 'fvtt-player-spotlight.data.campaign.description',
                         icon: 'fa-solid fa-calendar-days',
                     }
                 ]
@@ -70,7 +70,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 
 
     async _onFirstRender(context, options) {
-        const defaultTab = game.settings.get(constants.MODULE_NAME, constants.DEFAULT_VIEW);
+        const defaultTab = game.settings.get(MODULE_NAME, DATA_MODE);
         this.changeTab(defaultTab, 'sheet', { force: true });
     }
 
