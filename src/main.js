@@ -23,6 +23,19 @@ Hooks.once('init', async function () {
         default: "session"
     });
 
+    game.settings.register(MODULE_NAME, SORT_MODE, {
+        name: "fvtt-player-spotlight.sort.settings.title",
+        hint: "fvtt-player-spotlight.sort.settings.description",
+        scope: 'world',
+        config: true,
+        requiresReload: false,
+        type: String,
+        choices: {
+            "queue": "fvtt-player-spotlight.sort.queue.title",
+            "stable": "fvtt-player-spotlight.sort.stable.title"
+        },
+        default: "queue"
+    });
 
     // Prepare data storage
     game.settings.register(MODULE_NAME, DATA, {
