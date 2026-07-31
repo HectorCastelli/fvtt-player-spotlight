@@ -61,3 +61,15 @@ To do so, you can *right-click* on the players list and `Track spotlight`/`Hide 
 If you frequently switch between groups, you can create **Group templates** and quickly activate them.
 
 This makes tracking and hiding players a one-click action instead of going manually thru each one.
+
+## Contributing
+
+This project is fully open source and open to external contributions.
+
+You can contribute by reporting bugs, suggesting features, and submitting Pull Requests with improvements and fixes.
+
+### AI use
+
+This project does **not** accept AI-generated content, reports or code.
+
+The use of AI assistance (where the majority of the work is performed by a human, and any AI-generated output is validated by a human) should be disclosed explicitly.
