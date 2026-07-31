@@ -6,7 +6,7 @@ const { renderTemplate } = foundry.applications.handlebars;
 
 // Initialization logic
 Hooks.once('init', async function () {
-    console.debug('Initializing player spotlight module');
+    console.debug('Initializing player spotlight module', { game, foundry });
 
     // Configure game settings
     game.settings.register(constants.MODULE_NAME, constants.DEFAULT_VIEW, {
@@ -22,7 +22,26 @@ Hooks.once('init', async function () {
         },
         default: "session"
     })
+
+    game.settings.register(constants.MODULE_NAME, constants.DATA, {
+        name: `${constants.MODULE_NAME}.${constants.DATA}`,
+        scope: 'world',
+        config: false, // Hide from settings UI
+        requiresReload: false,
+        type: new foundry.data.fields.ArrayField( // Array of
+            new foundry.data.fields.SchemaField({
+                date: new foundry.data.fields.IntegerSortField(), // Date epoch in UTC
+                spotlights: new foundry.data.fields.ArrayField( // List of
+                    new foundry.data.fields.ForeignDocumentField( // Document IDs refering to
+                        foundry.documents.BaseUser // Users
+                    )
+                )
+            })
+        ),
+        default: [],
+    })
 });
+
 Hooks.once('setup', async function () {
     console.log({ game, CONFIG });
 

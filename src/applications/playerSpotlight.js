@@ -16,8 +16,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         },
         actions: {
             startSession: this.#startSession,
-            spotlightAdd: this.#spotlightAdd,
-            spotlightRemove: this.#spotlightRemove,
+            spotlight: this.#spotlight,
         }
     }
 
@@ -55,6 +54,21 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             }
         }
 
+    _attachPartListeners(partId, htmlElement, options) {
+        super._attachPartListeners(partId, htmlElement, options);
+
+        // Bind right-click for spotlight to the same action
+        htmlElement.querySelectorAll("[data-action=spotlight]").forEach(element => {
+            element.addEventListener("contextmenu", (event) => {
+                event.preventDefault(); // Prevent native browser context menu
+                const actionName = element.dataset.action;
+                const handler = this.options.actions[actionName];
+                if (handler) handler.call(this, event, element);
+            });
+        });
+    }
+
+
     async _onFirstRender(context, options) {
         const defaultTab = game.settings.get(constants.MODULE_NAME, constants.DEFAULT_VIEW);
         this.changeTab(defaultTab, 'sheet', { force: true });
@@ -69,10 +83,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         console.log({ args })
     }
 
-    static async #spotlightAdd(...args) {
-        console.log({ args })
-    }
-    static async #spotlightRemove(...args) {
-        console.log({ args })
+    static async #spotlight(event, element) {
+        console.log({ event, element });
     }
 }
