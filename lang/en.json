@@ -1,1 +1,9 @@
-{}
+{
+    "fvtt-player-spotlight.controlTitle": "Player Spotlight",
+    "fvtt-player-spotlight.viewMode.settings.title": "Default view mode",
+    "fvtt-player-spotlight.viewMode.settings.description": "What type of data will be shown when you first open the Player Spotlight view?",
+    "fvtt-player-spotlight.viewMode.session.title": "Session Mode",
+    "fvtt-player-spotlight.viewMode.session.description": "Shows only the data for the current session.",
+    "fvtt-player-spotlight.viewMode.campaign.title": "Campaign Mode",
+    "fvtt-player-spotlight.viewMode.campaign.description": "Shows all the data available"
+}
