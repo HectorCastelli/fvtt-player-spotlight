@@ -12,13 +12,15 @@ A foundryVTT module that helps GMs track who is getting the spotlight during ses
 >
 > Features that are planned but not yet implemented are noted by a `🔜` symbol
 
-### 🔜 Keep an eye on the spotlight
+### Keep an eye on the spotlight
 
 Click the spotlight icon on the right of the player list, to display the `Spotlight Tracker` window.
 
-<!-- TODO: show the icon or a screenshot here -->
+![Spotlight button shown in the token tool bar](./assets/activation.png)
 
-Once open, you will have access to an up-to-date view on how the spotlight is being shared across your players.
+Once open, you will have access to an up-to-date view on how the spotlight is being shared across your players:
+
+![Spotlight window showing the list of players](./assets/window.png)
 
 #### 🔜 Tracking your game
 
@@ -44,7 +46,7 @@ When you start a new session, you can press the `New session` button. This will 
 
 Optionally, this can be done automatically when the date changes.
 
-### 🔜 Track when you spotlight a player 
+### Track when you spotlight a player 
 
 You can *left-click* a player card to indicate they received a spotlight, or *right-click* them to remove or undo a spotlight.
 
