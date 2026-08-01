@@ -16,16 +16,29 @@
         justify-content: center;
 
         gap: 1em;
-        padding: 1em;
 
         &>li {
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Show the count of spotlights for each player */
+            /* Keep buttons pinned to the top of the screen */
+            justify-content: flex-start;
+
+            /* Bar chart background scaled by count */
             &::after {
                 display: block;
-                content: "(" attr(data-spotlight-count) ")";
+                content: "(" attr(data-spotlight-count, 0) ")";
+                text-align: center;
+
+                padding: 0.25em 1em;
+                min-width: 3em;
+
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 0.25em;
+                pointer-events: none;
+
+                /* Dynamic height: responsive percentage based on count */
+                height: calc(2em + clamp(0.5em, calc(attr(data-spotlight-count number) / 40 * 100%), 100%));
             }
 
             /* Hide the icon by default */

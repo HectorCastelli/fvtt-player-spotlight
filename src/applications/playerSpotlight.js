@@ -11,8 +11,8 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             title: "fvtt-player-spotlight.controlTitle",
         },
         position: {
-            width: 400,
-            height: 'auto',
+            width: 300,
+            height: 250,
         },
         actions: {
             spotlight: this.#spotlight,
