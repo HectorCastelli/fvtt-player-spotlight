@@ -48,6 +48,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     #getContextData(spotlightData = game.settings.get(MODULE_NAME, DATA)) {
+        console.debug('Preparing context data for player spotlight', { spotlightData });
         const result = {};
 
         const { users } = game;
@@ -91,24 +92,24 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             console.error('Unable to locate userDocument for user', userId, userDocument);
         }
 
+        // Read the latest data from storage to avoid overwriting changes made by other clients
         const spotlightData = game.settings.get(MODULE_NAME, DATA);
-        const latestSession = spotlightData.at(-1);
 
-        if (!latestSession) {
-            // Start a new session if none exists
+        // Start a new session if none exists
+        if (!spotlightData.length) {
             this.startSession();
         }
+        const latestSession = spotlightData.at(-1);
 
         if (event.type === 'contextmenu' || event.button === 2) {
             const lastSpotlightIndex = latestSession.spotlights.findLastIndex(e => e === userId);
-            if (lastSpotlightIndex) {
-                latestSession.spotlights.splice(lastSpotlightIndex, 1); // Remove last one
+            if (lastSpotlightIndex >= 0) {
+                latestSession.spotlights.splice(lastSpotlightIndex, 1); // Remove last occurrence for this user
             }
         } else {
             latestSession.spotlights.push(userDocument);
         }
 
-        console.debug(spotlightData);
         // Update the stored data with the modified values without blocking
         void game.settings.set(MODULE_NAME, DATA, spotlightData).catch(updateError => {
             console.error('Failed to update spotlight data', updateError);
