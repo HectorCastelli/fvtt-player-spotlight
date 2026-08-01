@@ -1,4 +1,12 @@
 #fvtt-player-spotlight {
+
+    & section[data-application-part=spotlight] {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+    }
+
     & .spotlight-list {
         list-style: none;
 
