@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA, RESET_DATA } from './constants.js';
+import { MODULE_NAME, DATA, RESET_DATA, SORT_MODE, SORT_MODES } from './constants.js';
 import { PlayerSpotlight } from './applications/playerSpotlight.js';
 
 // Helpers
@@ -9,6 +9,21 @@ Hooks.once('init', async function () {
     console.debug('Initializing player spotlight module', { game, foundry });
 
     // Configure game settings
+    game.settings.register(MODULE_NAME, SORT_MODE, {
+        name: "fvtt-player-spotlight.sortMode.title",
+        hint: "fvtt-player-spotlight.sortMode.description",
+        scope: 'world',
+        config: true,
+        requiresReload: true,
+        type: String,
+        choices: {
+            [SORT_MODES.QUEUE]: "fvtt-player-spotlight.sortMode.queue",
+            [SORT_MODES.STABLE]: "fvtt-player-spotlight.sortMode.stable",
+        },
+        default: SORT_MODES.QUEUE,
+    });
+
+    // Prepare data storage
     game.settings.register(MODULE_NAME, RESET_DATA, {
         name: "fvtt-player-spotlight.resetData.title",
         hint: "fvtt-player-spotlight.resetData.description",
@@ -24,8 +39,6 @@ Hooks.once('init', async function () {
             }
         }
     });
-
-    // Prepare data storage
     game.settings.register(MODULE_NAME, DATA, {
         name: `${MODULE_NAME}.${DATA}`,
         scope: 'world',

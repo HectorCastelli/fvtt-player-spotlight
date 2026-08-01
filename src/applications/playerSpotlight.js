@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA } from '../constants.js';
+import { MODULE_NAME, DATA, SORT_MODE, SORT_MODES } from '../constants.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -23,6 +23,14 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         spotlight: {
             template: `modules/${MODULE_NAME}/src/templates/spotlight.hbs`,
         },
+    }
+
+    #sortMode;
+
+    constructor(options = {}) {
+        super(options);
+
+        this.#sortMode = game.settings.get(MODULE_NAME, SORT_MODE);
     }
 
     _attachPartListeners(partId, htmlElement, options) {
@@ -54,6 +62,12 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         const { users } = game;
         result.players = users.players;
 
+        result.sortMode = this.#sortMode;
+        if (this.#sortMode === SORT_MODES.STABLE) {
+            // Sort players by their names, alphabetically.
+            result.players.sort((a, b) => a.name.localeCompare(b.name));
+        }
+
         const latestSession = spotlightData.at(-1);
         if (latestSession) {
             result.session = {
@@ -67,6 +81,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             result.campaign = {};
         }
 
+        console.debug('Prepared context data for player spotlight', { result });
         return result;
     }
 

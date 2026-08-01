@@ -1,5 +1,9 @@
 {
     "fvtt-player-spotlight.controlTitle": "Player Spotlight",
     "fvtt-player-spotlight.resetData.title": "Reset Spotlight Data",
-    "fvtt-player-spotlight.resetData.description": "Clears all spotlight data stored so far. This is a non-reversible action."
+    "fvtt-player-spotlight.resetData.description": "Clears all spotlight data stored so far. This is a non-reversible action.",
+    "fvtt-player-spotlight.sortMode.title": "Spotlight Sorting Mode",
+    "fvtt-player-spotlight.sortMode.description": "How to sort players as spotlight are given and removed.",
+    "fvtt-player-spotlight.sortMode.queue": "Queue",
+    "fvtt-player-spotlight.sortMode.stable": "Stable"
 }

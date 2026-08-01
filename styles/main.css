@@ -11,9 +11,6 @@
         padding: 1em;
 
         &>li {
-            /* Sort by data-spotlight-count attribute, default to 0 */
-            order: attr(data-spotlight-count number, 0);
-
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,6 +23,16 @@
             /* Show the icon if the data-spotlight-latest attribute is true */
             &[data-spotlight-latest=true]>*>i {
                 display: inline-block;
+            }
+        }
+
+        /* Queue sort mode: Sort by data-spotlight-count attribute, default to 0 */
+        &[data-spotlight-sort=queue]>li {
+            order: attr(data-spotlight-count number, 0);
+
+            &[data-spotlight-latest=true] {
+                /* Force last spotlighted to always be in the end */
+                order: calc(attr(data-spotlight-count number, 0) + 99999);
             }
         }
     }

@@ -1,5 +1,5 @@
 <section>
-    <ol class="spotlight-list">
+    <ol class="spotlight-list" data-spotlight-sort="{{spotlight.sortMode}}">
         {{#each spotlight.players}}
         {{#with this as | player |}}
         <li data-action="spotlight" data-user-id="{{player.id}}"

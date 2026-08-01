@@ -31,7 +31,7 @@ We offer two view modes that you can toggle:
 
 <!-- TODO: show screenshot of this feature. -->
 
-#### 🔜 Choose a spotlight
+#### Choose a spotlight
 
 To help you determine who should receive the spotlight next, we offer two modes:
 
