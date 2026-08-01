@@ -1,3 +1,5 @@
 {
-    "fvtt-player-spotlight.controlTitle": "Player Spotlight"
+    "fvtt-player-spotlight.controlTitle": "Player Spotlight",
+    "fvtt-player-spotlight.resetData.title": "Reset Spotlight Data",
+    "fvtt-player-spotlight.resetData.description": "Clears all spotlight data stored so far. This is a non-reversible action."
 }

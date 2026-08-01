@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA } from './constants.js';
+import { MODULE_NAME, DATA, RESET_DATA } from './constants.js';
 import { PlayerSpotlight } from './applications/playerSpotlight.js';
 
 // Helpers
@@ -9,6 +9,22 @@ Hooks.once('init', async function () {
     console.debug('Initializing player spotlight module', { game, foundry });
 
     // Configure game settings
+    game.settings.register(MODULE_NAME, RESET_DATA, {
+        name: "fvtt-player-spotlight.resetData.title",
+        hint: "fvtt-player-spotlight.resetData.description",
+        scope: 'world',
+        config: true,
+        requiresReload: true,
+        type: Boolean,
+        default: false,
+        onChange: async (value) => {
+            if (value) {
+                await game.settings.set(MODULE_NAME, DATA, []);
+                await game.settings.set(MODULE_NAME, RESET_DATA, false);
+            }
+        }
+    });
+
     // Prepare data storage
     game.settings.register(MODULE_NAME, DATA, {
         name: `${MODULE_NAME}.${DATA}`,
