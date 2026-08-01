@@ -1,13 +1,14 @@
 <section class="tab {{tabs.details.cssClass}}" data-group="sheet" data-tab="session">
-    {{!-- For each player, show a bar --}}
-    {{!-- Set the bar height based on the count of spotlights (scaled) --}}
-    {{!-- If the player was the most recently spotlighted, add an icon --}}
-    {{log players}}
-    <ol>
-        {{#each players}}
+    <ol class="spotlight-list">
+        {{#each spotlight.players}}
         {{#with this as | player |}}
-        <li>
-            <button type="button" data-action="spotlight" data-user-id="{{player.id}}">{{player.name}}</button>
+        <li data-action="spotlight" data-user-id="{{player.id}}"
+            data-spotlight-count="{{../spotlight.sessions.counts.[player.id]}}"
+            data-spotlight-latest="{{ifThen (eq player.id ../spotlight.session.lastPlayer) 'true' 'false'}}">
+            <button type="button">
+                <p>{{player.name}}</p>
+                <i class="fa-solid fa-star"></i>
+            </button>
         </li>
         {{/with}}
         {{/each}}

@@ -76,19 +76,31 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
     async _prepareContext(options) {
         const context = await super._prepareContext(options);
 
-        const { users } = game;
-        context.players = users.players;
+        context.spotlight = this.#getContextData();
 
-        const spotlightData = game.settings.get(MODULE_NAME, DATA);
+        return context;
+    }
+
+    #getContextData(spotlightData = game.settings.get(MODULE_NAME, DATA)) {
+        const result = {};
+
+        const { users } = game;
+        result.players = users.players;
+
         const latestSession = spotlightData.at(-1);
         if (latestSession) {
-            context.session = {
-                current: spotlightData.at(-1)?.date,
+            result.session = {
+                current: spotlightData.at(-1).date,
+                lastPlayer: spotlightData.at(-1).spotlights.at(-1),
+                counts: Object.fromEntries(
+                    result.players.map(player => [player.id, latestSession.spotlights.filter(e => e === player.id).length])
+                ),
             };
 
-            context.campaign = {};
+            result.campaign = {};
         }
-        return context;
+
+        return result;
     }
 
     async startSession() {
