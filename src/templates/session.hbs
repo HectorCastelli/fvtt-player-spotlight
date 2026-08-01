@@ -1,3 +1,15 @@
 <section class="tab {{tabs.details.cssClass}}" data-group="sheet" data-tab="session">
-    <p>A</p>
+    {{!-- For each player, show a bar --}}
+    {{!-- Set the bar height based on the count of spotlights (scaled) --}}
+    {{!-- If the player was the most recently spotlighted, add an icon --}}
+    {{log players}}
+    <ol>
+        {{#each players}}
+        {{#with this as | player |}}
+        <li>
+            <button type="button" data-action="spotlight" data-user-id="{{player.id}}">{{player.name}}</button>
+        </li>
+        {{/with}}
+        {{/each}}
+    </ol>
 </section>

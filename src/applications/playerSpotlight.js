@@ -15,7 +15,6 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             height: 'auto',
         },
         actions: {
-            startSession: this.#startSession,
             spotlight: this.#spotlight,
         }
     }
@@ -76,14 +75,62 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 
     async _prepareContext(options) {
         const context = await super._prepareContext(options);
+
+        const { users } = game;
+        context.players = users.players;
+
+        const spotlightData = game.settings.get(MODULE_NAME, DATA);
+        const latestSession = spotlightData.at(-1);
+        if (latestSession) {
+            context.session = {
+                current: spotlightData.at(-1)?.date,
+            };
+
+            context.campaign = {};
+        }
         return context;
     }
 
-    static async #startSession(...args) {
-        console.log({ args })
+    async startSession() {
+        const spotlightData = game.settings.get(MODULE_NAME, DATA);
+
+        spotlightData.push({
+            date: Date.now(),
+            spotlights: []
+        });
+
+        return game.settings.set(MODULE_NAME, DATA, spotlightData);
     }
 
     static async #spotlight(event, element) {
-        console.log({ event, element });
+        const userId = element.dataset.userId;
+        if (!userId) {
+            console.error('Unable to locate userId', userId);
+        }
+
+        const userDocument = game.users.get(userId);
+        if (!userId) {
+            console.error('Unable to locate userDocument for user', userId, userDocument);
+        }
+
+        const spotlightData = game.settings.get(MODULE_NAME, DATA);
+        const latestSession = spotlightData.at(-1);
+
+        if (!latestSession) {
+            // Start a new session if none exists
+            this.startSession();
+        }
+
+        if (event.type === 'contextmenu' || event.button === 2) {
+            const lastSpotlightIndex = latestSession.spotlights.findLastIndex(e => e === userId);
+            if (lastSpotlightIndex) {
+                latestSession.spotlights.splice(lastSpotlightIndex, 1); // Remove last one
+            }
+        } else {
+            latestSession.spotlights.push(userDocument);
+        }
+
+        console.debug(spotlightData);
+        game.settings.set(MODULE_NAME, DATA, spotlightData);
     }
 }

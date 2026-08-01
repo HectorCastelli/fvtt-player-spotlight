@@ -52,9 +52,7 @@ Hooks.once('init', async function () {
             new foundry.data.fields.SchemaField({
                 date: new foundry.data.fields.IntegerSortField(),
                 spotlights: new foundry.data.fields.ArrayField(
-                    new foundry.data.fields.ForeignDocumentField(
-                        foundry.documents.BaseUser
-                    )
+                    new foundry.data.fields.ForeignDocumentField(CONFIG.User.documentClass, { idOnly: true })
                 )
             })
         ),
@@ -63,8 +61,6 @@ Hooks.once('init', async function () {
 });
 
 Hooks.once('setup', async function () {
-    console.log({ game, CONFIG });
-
     if (game.user.isGM) {
         console.debug('This player is a GM');
 
