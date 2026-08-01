@@ -143,6 +143,18 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         }
 
         console.debug(spotlightData);
-        game.settings.set(MODULE_NAME, DATA, spotlightData);
+        // Update the stored data with the modified values without blocking
+        void game.settings.set(MODULE_NAME, DATA, spotlightData).catch(updateError => {
+            console.error('Failed to update spotlight data', updateError);
+        })
+
+        // Refresh the current UI to reflect the changes
+        const contextData = this.#getContextData(spotlightData); // Use local (modified) version of data
+
+        const spotlightList = element.parentNode;
+        for (const child of spotlightList.children) {
+            child.dataset.spotlightLatest = (child.dataset.userId === contextData.session.lastPlayer);
+            child.dataset.spotlightCount = contextData.session.counts[child.dataset.userId];
+        }
     }
 }
