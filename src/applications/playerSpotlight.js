@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA_MODE, DATA } from '../constants.js';
+import { MODULE_NAME, DATA } from '../constants.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -20,38 +20,10 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     static PARTS = {
-        tabs: {
-            template: 'templates/generic/tab-navigation.hbs', // Foundry-provided generic template
-        },
-        session: {
-            template: `modules/${MODULE_NAME}/src/templates/session.hbs`,
-        },
-        campaign: {
-            template: `modules/${MODULE_NAME}/src/templates/campaign.hbs`,
+        spotlight: {
+            template: `modules/${MODULE_NAME}/src/templates/spotlight.hbs`,
         },
     }
-
-    static TABS =
-        {
-            sheet: {
-                initial: '', // This is overwritten by the firstRender
-                labelPrefix: null,
-                tabs: [
-                    {
-                        id: 'session',
-                        label: 'fvtt-player-spotlight.data.session.title',
-                        tooltip: 'fvtt-player-spotlight.data.session.description',
-                        icon: 'fa-solid fa-calendar-day',
-                    },
-                    {
-                        id: 'campaign',
-                        label: 'fvtt-player-spotlight.data.campaign.title',
-                        tooltip: 'fvtt-player-spotlight.data.campaign.description',
-                        icon: 'fa-solid fa-calendar-days',
-                    }
-                ]
-            }
-        }
 
     _attachPartListeners(partId, htmlElement, options) {
         super._attachPartListeners(partId, htmlElement, options);
@@ -62,15 +34,9 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
                 event.preventDefault(); // Prevent native browser context menu
                 const actionName = element.dataset.action;
                 const handler = this.options.actions[actionName];
-                if (handler) handler.call(this, event, element);
+                if (handler) { handler.call(this, event, element); }
             });
         });
-    }
-
-
-    async _onFirstRender(context, options) {
-        const defaultTab = game.settings.get(MODULE_NAME, DATA_MODE);
-        this.changeTab(defaultTab, 'sheet', { force: true });
     }
 
     async _prepareContext(options) {
