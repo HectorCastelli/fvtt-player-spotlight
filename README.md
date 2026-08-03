@@ -31,14 +31,16 @@ We offer two view modes that you can toggle:
 
 <!-- TODO: show screenshot of this feature. -->
 
-#### Choose a spotlight
+#### Choose a sorting mode
 
 To help you determine who should receive the spotlight next, we offer two modes:
 
 - `Queue mode`: Whenever a player receives a spotlight, it will be moved to the end of the list. This means that players at the start of the list are the ones that should be considered for a spotlight next!
 - `Stable mode`: Players are sorted by their names, so clicking them will not reorder the list. In this case, you can track the overall count of spotlights, and watch the `spotlight` icon to see who received the spotlight last.
 
-<!-- TODO: show the icon and screenshots here. Compare the two functionalities. Consider a video to showcase the feature in action. -->
+| Queue mode | Stable Mode |
+| :-: | :-: |
+| [Queue mode in action](./assets/queue-mode.mp4) | [Stable mode in action](./assets/queue-mode.mp4) |
 
 ### Track sessions
 
