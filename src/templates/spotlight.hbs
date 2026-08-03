@@ -7,7 +7,7 @@
             data-spotlight-latest="{{ifThen (eq player.id ../spotlight.session.lastPlayer) 'true' 'false'}}">
             <button type="button">
                 <p>{{player.name}}</p>
-                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star" title="{{localize 'fvtt-player-spotlight.spotlight.latest'}}"></i>
             </button>
         </li>
         {{/with}}

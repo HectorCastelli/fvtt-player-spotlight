@@ -5,5 +5,6 @@
     "fvtt-player-spotlight.sortMode.title": "Spotlight Sorting Mode",
     "fvtt-player-spotlight.sortMode.description": "How to sort players as spotlight are given and removed.",
     "fvtt-player-spotlight.sortMode.queue": "Queue",
-    "fvtt-player-spotlight.sortMode.stable": "Stable"
+    "fvtt-player-spotlight.sortMode.stable": "Stable",
+    "fvtt-player-spotlight.spotlight.latest": "Latest"
 }
