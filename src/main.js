@@ -74,7 +74,7 @@ Hooks.once('setup', async function () {
     if (game.user.isGM) {
         console.debug('This player is a GM');
 
-        // Configure player list controls
+        // Configure spotlight UI button
         Hooks.on('getSceneControlButtons', function (controls) {
             // TODO: create a stand-alone button next to the player bar instead
             controls.tokens.tools[MODULE_NAME] = {
