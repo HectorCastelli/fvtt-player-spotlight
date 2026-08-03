@@ -4,7 +4,9 @@ A foundryVTT module that helps GMs track who is getting the spotlight during ses
 
 ## Installation:
 
-You can use the url `https://github.com/HectorCastelli/fvtt-player-spotlight/releases/latest/download/module.json` to install this module on your Foundry instance.
+You can install [this module on Foundry VTT](https://foundryvtt.com/packages/fvtt-player-spotlight) by searching for it.
+
+Alternatively, you can use the url `https://github.com/HectorCastelli/fvtt-player-spotlight/releases/latest/download/module.json` to install the latest module version on your Foundry instance.
 
 ## Features
 
