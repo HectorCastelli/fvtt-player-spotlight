@@ -20,7 +20,6 @@ jobs:
         run: ./scripts/bundle.sh ${{ github.ref_name }}
 
       - name: Log commits
-        id: commits
         run: |
           TAG=${{ github.ref_name }}
           PREV_TAG=$(git describe --tags --abbrev=0 $TAG^ 2>/dev/null || echo "")
@@ -31,15 +30,26 @@ jobs:
           fi
           echo $COMMITS > commits.txt
 
+      - name: Create release notes
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          (
+            echo "# ${TAG}"
+            echo ""
+            echo "## Changes"
+            echo ""
+            cat commits.txt
+          ) > release_notes.md
+
       - name: Create release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
         run: |
-          COMMIT_LOG=$(cat ./commits.txt)
           gh release create "$TAG" \
             --draft \
             --title "$TAG" \
-            --notes "## Changes\n\n$COMMIT_LOG" \
+            --notes-file release_notes.md \
             module.zip \
             dist/module.json
