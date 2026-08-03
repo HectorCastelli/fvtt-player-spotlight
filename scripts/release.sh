@@ -34,12 +34,12 @@ echo "$COMMITS" >commits.md
 
 echo "Creating annotated tag..."
 git tag "$VERSION_NUMBER" -m "$(cat release_notes.md)"
-git push --tags
+git push && git push --tags
 
 echo "Creating draft release"
 gh release create "$VERSION_NUMBER" \
 	--draft \
 	--title "$VERSION_NUMBER" \
-	--notes-from-tag \
+	--notes-file release_notes.md \
 	module.zip \
 	dist/module.json

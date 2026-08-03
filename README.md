@@ -99,12 +99,22 @@ To use this script, run it and point to [your Foundry `Data/` folder path](https
 
 ### Release process
 
-When a new version of the module is ready to be released, we create a git tag with the new version number.
+When a new version of the module is ready to be released, we use the [`release.sh` script](./scripts/release.sh).
+
+To use this script, run it and provide the new version number, for example:
+
+```sh
+./scripts/release.sh 1.2.3
+```
 
 Version numbers adhere to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
-The creation of a new git tag activates a GitHub workflow that:
+The script will:
 
-- Bundles the files necessary for the module in a new folder, this allows the final "shipped" version to be minimized and compressed without extra content like documentation, test, or media assets
+- Bundles the files necessary for the module in a new folder
+    - This allows the final "shipped" version to be minimized and compressed without extra content like documentation, test, or media assets
 - Updates the version numbers in the `module.json` to match the tag
-- Prepares the release notes and created a GitHub release
+- Prepares the release notes
+- Creates a new git tag with the version number
+- Pushes changes to GitHub
+- Creates a new release with the necessary assets and release notes
