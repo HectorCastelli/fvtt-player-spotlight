@@ -1,3 +1,6 @@
 # Ignore build outputs
 dist/
 module.zip
+# Ignore release outputs
+commits.md
+release_notes.md
