@@ -1,0 +1,3 @@
+# Ignore build outputs
+dist/
+module.zip
