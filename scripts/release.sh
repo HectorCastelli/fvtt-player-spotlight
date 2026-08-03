@@ -40,6 +40,6 @@ echo "Creating draft release"
 gh release create "$VERSION_NUMBER" \
 	--draft \
 	--title "$VERSION_NUMBER" \
-	--notes-from-tag \
+	--notes-file release_notes.md \
 	module.zip \
 	dist/module.json
