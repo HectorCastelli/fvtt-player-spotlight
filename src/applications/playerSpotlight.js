@@ -125,9 +125,30 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         return game.settings.set(MODULE_NAME, DATA, spotlightData);
     }
 
+    /**
+     * Refreshes the UI to reflect the current state of the data.
+     * 
+     * This is an alternative to `this.render()`.
+     * The main advantage is that this will update the UI without re-rendering the entire window, allowing CSS transitions and animations to play as expected.
+     */
+    #refreshUI() {
+        const contextData = this.#getContextData();
+
+        const spotlightList = this.element.querySelector('.spotlight-list');
+        for (const child of spotlightList.children) {
+            child.dataset.spotlightLatest = (child.dataset.userId === contextData.session.lastPlayer);
+            child.dataset.spotlightCount = contextData.session.counts[child.dataset.userId];
+        }
+
+        const sessionDateElement = this.element.querySelector('[data-spotlight-session-date]');
+        if (sessionDateElement) {
+            sessionDateElement.textContent = this.#prepareDate(contextData.session.currentDate);
+        }
+    }
+
     static async #startSession(event, element) {
         await this.#newSession();
-        this.render(); // Refresh the window to reflect the new session
+        this.#refreshUI();
     }
 
     static async #spotlight(event, element) {
@@ -164,13 +185,6 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             console.error('Failed to update spotlight data', updateError);
         })
 
-        // Refresh the current UI to reflect the changes
-        const contextData = this.#getContextData(spotlightData); // Use local (modified) version of data
-
-        const spotlightList = element.parentNode;
-        for (const child of spotlightList.children) {
-            child.dataset.spotlightLatest = (child.dataset.userId === contextData.session.lastPlayer);
-            child.dataset.spotlightCount = contextData.session.counts[child.dataset.userId];
-        }
+        this.#refreshUI();
     }
 }
