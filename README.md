@@ -77,3 +77,14 @@ You can contribute by reporting bugs, suggesting features, and submitting Pull R
 This project does **not** accept AI-generated content, reports or code.
 
 The use of AI assistance (where the majority of the work is performed by a human, and any AI-generated output is validated by a human) should be disclosed explicitly.
+
+### Development
+
+This repository comes with a [`install.sh` script](./scripts/install.sh) that can install the local module version into your instance.
+This is helpful to test changes as you develop new features.
+
+To use this script, run it and point to [your Foundry `Data/` folder path](https://foundryvtt.com/article/user-data/), for example:
+
+```sh
+./scripts/install.sh /my/foundry/Data
+```
