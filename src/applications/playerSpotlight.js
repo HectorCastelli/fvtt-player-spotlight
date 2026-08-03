@@ -47,6 +47,13 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
                 void this.#startSession();
             }
         }
+
+        // Watch player connection events
+        if (this.#activeFilter) {
+            Hooks.on('userConnected', function (user, connected) {
+                PlayerSpotlight.refreshCurrentUI();
+            });
+        }
     }
 
     _attachPartListeners(partId, htmlElement, options) {
@@ -137,13 +144,17 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
      * This is an alternative to `this.render()`.
      * The main advantage is that this will update the UI without re-rendering the entire window, allowing CSS transitions and animations to play as expected.
      */
-    #refreshUI() {
+    _refreshUI() {
+        console.debug('Refreshing Spotlight UI');
         const contextData = this.#getContextData();
 
         const spotlightList = this.element.querySelector('.spotlight-list');
         for (const child of spotlightList.children) {
             child.dataset.spotlightLatest = (child.dataset.userId === contextData.session.lastPlayer);
             child.dataset.spotlightCount = contextData.session.counts[child.dataset.userId];
+            if (this.#activeFilter) {
+                child.dataset.spotlightVisible = contextData.players.find(p => p.id === child.dataset.userId)?.visible;
+            }
         }
 
         const sessionDateElement = this.element.querySelector('[data-spotlight-session-date]');
@@ -152,9 +163,16 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         }
     }
 
+    static refreshCurrentUI() {
+        const instance = foundry.applications.instances.get(MODULE_NAME);
+        if (instance) {
+            instance._refreshUI();
+        }
+    }
+
     static async #startSession(event, element) {
         await this.#newSession();
-        this.#refreshUI();
+        this._refreshUI();
     }
 
     static async #spotlight(event, element) {
@@ -191,6 +209,6 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             console.error('Failed to update spotlight data', updateError);
         })
 
-        this.#refreshUI();
+        this._refreshUI();
     }
 }
