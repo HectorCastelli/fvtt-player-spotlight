@@ -1,9 +1,12 @@
 <section>
-    {{log spotlight}}
     <p>{{localize 'fvtt-player-spotlight.session.current'}}: <span
-            data-spotlight-session-date="spotlight.session.current">{{ifThen spotlight.session.current
+            data-spotlight-session-date="spotlight.session.current">
+            {{
+            ifThen spotlight.session.current
             spotlight.session.currentDate
-            (localize 'fvtt-player-spotlight.session.none')}}</span>
+            (localize 'fvtt-player-spotlight.session.none')
+            }}
+        </span>
     </p>
     <button type="button" data-action="startSession">{{localize 'fvtt-player-spotlight.session.start'}}</button>
 </section>

@@ -92,8 +92,6 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
                     result.players.map(player => [player.id, latestSession.spotlights.filter(e => e === player.id).length])
                 ),
             };
-
-            result.campaign = {};
         }
 
         console.debug('Prepared context data for player spotlight', { result });
