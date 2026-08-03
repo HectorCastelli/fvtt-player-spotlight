@@ -16,10 +16,14 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         },
         actions: {
             spotlight: this.#spotlight,
+            startSession: this.#startSession,
         }
     }
 
     static PARTS = {
+        session: {
+            template: `modules/${MODULE_NAME}/src/templates/session.hbs`,
+        },
         spotlight: {
             template: `modules/${MODULE_NAME}/src/templates/spotlight.hbs`,
         },
@@ -38,7 +42,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             const latestSession = spotlightData.at(-1);
             console.debug('Auto-starting new session if needed', { latestSession: latestSession ? new Date(latestSession.date).toDateString() : undefined, today: new Date().toDateString() });
             if (latestSession && new Date(latestSession.date).toDateString() !== new Date().toDateString()) {
-                void this.startSession();
+                void this.#startSession();
             }
         }
     }
@@ -82,6 +86,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         if (latestSession) {
             result.session = {
                 current: spotlightData.at(-1).date,
+                currentDate: this.#prepareDate(spotlightData.at(-1).date),
                 lastPlayer: spotlightData.at(-1).spotlights.at(-1),
                 counts: Object.fromEntries(
                     result.players.map(player => [player.id, latestSession.spotlights.filter(e => e === player.id).length])
@@ -95,7 +100,21 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         return result;
     }
 
-    async startSession() {
+    /**
+     * Prepares a date epoch (number) for display in the UI, using the user's locale. 
+     */
+    #prepareDate(dateEpoch = Date.now()) {
+        return new Date(dateEpoch).toLocaleDateString(
+            undefined, // Use the user's locale
+            { // Format as DD/MM/YY (or MM/DD/YY depending on locale)
+                year: '2-digit',
+                month: '2-digit',
+                day: '2-digit',
+            }
+        );
+    }
+
+    async #newSession() {
         const spotlightData = game.settings.get(MODULE_NAME, DATA);
 
         spotlightData.push({
@@ -104,6 +123,11 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         });
 
         return game.settings.set(MODULE_NAME, DATA, spotlightData);
+    }
+
+    static async #startSession(event, element) {
+        await this.#newSession();
+        this.render(); // Refresh the window to reflect the new session
     }
 
     static async #spotlight(event, element) {
@@ -122,7 +146,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 
         // Start a new session if none exists
         if (!spotlightData.length) {
-            this.startSession();
+            this.#newSession();
         }
         const latestSession = spotlightData.at(-1);
 

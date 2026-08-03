@@ -62,4 +62,17 @@
             }
         }
     }
+
+    & section[data-application-part=session] {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 0.25em;
+        gap: 0.5em;
+        /* Match foundry appearance */
+        border-radius: 6px;
+
+        background: rgba(255, 255, 255, 0.1);
+    }
 }
