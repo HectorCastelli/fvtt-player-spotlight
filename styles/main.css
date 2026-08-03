@@ -5,60 +5,60 @@
         display: flex;
         justify-content: center;
         align-items: stretch;
-    }
 
-    & .spotlight-list {
-        list-style: none;
+        &>ol.spotlight-list {
+            list-style: none;
 
-        display: flex;
-        flex-direction: row;
-
-        justify-content: center;
-
-        gap: 1em;
-
-        &>li {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* Keep buttons pinned to the top of the screen */
-            justify-content: flex-start;
+            flex-direction: row;
 
-            /* Bar chart background scaled by count */
-            &::after {
-                display: block;
-                content: "(" attr(data-spotlight-count, "0") ")";
-                text-align: center;
+            justify-content: center;
 
-                padding: 0.25em 1em;
-                min-width: 3em;
+            gap: 1em;
 
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 0.25em;
-                pointer-events: none;
+            &>li {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                /* Keep buttons pinned to the top of the screen */
+                justify-content: flex-start;
 
-                /* Dynamic height: responsive percentage based on count */
-                height: calc(2em + clamp(0.5em, calc(attr(data-spotlight-count number) / 40 * 100%), 100%));
+                /* Bar chart background scaled by count */
+                &::after {
+                    display: block;
+                    content: "(" attr(data-spotlight-count, "0") ")";
+                    text-align: center;
+
+                    padding: 0.25em 1em;
+                    min-width: 3em;
+
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 0.25em;
+                    pointer-events: none;
+
+                    /* Dynamic height: responsive percentage based on count */
+                    height: calc(2em + clamp(0.5em, calc(attr(data-spotlight-count number) / 40 * 100%), 100%));
+                }
+
+                /* Hide the icon by default */
+                &>*>i {
+                    display: none;
+                }
+
+                /* Show the icon if the data-spotlight-latest attribute is true */
+                &[data-spotlight-latest=true]>*>i {
+                    display: inline-block;
+                }
             }
 
-            /* Hide the icon by default */
-            &>*>i {
-                display: none;
-            }
+            /* Queue sort mode: Sort by data-spotlight-count attribute, default to 0 */
+            &[data-spotlight-sort=queue]>li {
+                order: attr(data-spotlight-count number, 0);
 
-            /* Show the icon if the data-spotlight-latest attribute is true */
-            &[data-spotlight-latest=true]>*>i {
-                display: inline-block;
-            }
-        }
-
-        /* Queue sort mode: Sort by data-spotlight-count attribute, default to 0 */
-        &[data-spotlight-sort=queue]>li {
-            order: attr(data-spotlight-count number, 0);
-
-            &[data-spotlight-latest=true] {
-                /* Force last spotlighted to always be in the end */
-                order: calc(attr(data-spotlight-count number, 0) + 99999);
+                &[data-spotlight-latest=true] {
+                    /* Force last spotlighted to always be in the end */
+                    order: calc(attr(data-spotlight-count number, 0) + 99999);
+                }
             }
         }
     }
