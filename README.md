@@ -72,11 +72,17 @@ This project is fully open source and open to external contributions.
 
 You can contribute by reporting bugs, suggesting features, and submitting Pull Requests with improvements and fixes.
 
+The working language is English, even if the module supports other languages during runtime.
+
 ### AI use
 
-This project does **not** accept AI-generated content, reports or code.
+This project does **NOT** accept AI-generated content, nor code.
 
-The use of AI assistance (where the majority of the work is performed by a human, and any AI-generated output is validated by a human) should be disclosed explicitly.
+All code and content contributions must comply with the [FoundryVTT AI Content Policy](https://foundryvtt.com/article/ai-policy/) definition for "Zero AI".
+
+AI tools may be used to report bugs or requests features, for the purpose of translation or rewriting.
+In these cases, the use of AI assistance (where the majority of the work is performed by a human, and any AI-generated output is validated by a human) is allowed as long as a disclaimer is added at the time of reporting.
+Submissions by AI systems without human supervision is not allowed.
 
 ### Development
 
