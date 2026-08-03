@@ -2,7 +2,7 @@
 
 A foundryVTT module that helps GMs track who is getting the spotlight during sessions and campaigns.
 
-## Installation:
+## Installation
 
 You can install [this module on Foundry VTT](https://foundryvtt.com/packages/fvtt-player-spotlight) by searching for it.
 
@@ -29,7 +29,7 @@ Once open, you will have access to an up-to-date view on how the spotlight is be
 We offer two view modes that you can toggle:
 
 - `Session Mode`: Shows only the data for the current session.
-- 🔜 `Campaign Mode`: shows all the data available. Highlighting the portion that corresponds to the current session. 
+- 🔜 `Campaign Mode`: shows all the data available. Highlighting the portion that corresponds to the current session.
 
 <!-- TODO: show screenshot of this feature. -->
 
@@ -50,7 +50,7 @@ When you start a new session, you can press the `New session` button. This will 
 
 Optionally, this can be done automatically when the date changes by enabling the `Session Auto Start` setting.
 
-### Track when you spotlight a player 
+### Track when you spotlight a player
 
 You can *left-click* a player card to indicate they received a spotlight, or *right-click* them to remove or undo a spotlight.
 
@@ -119,7 +119,7 @@ Version numbers adhere to [Semantic Versioning 2.0.0](https://semver.org/spec/v2
 The script will:
 
 - Bundles the files necessary for the module in a new folder
-    - This allows the final "shipped" version to be minimized and compressed without extra content like documentation, test, or media assets
+  - This allows the final "shipped" version to be minimized and compressed without extra content like documentation, test, or media assets
 - Updates the version numbers in the `module.json` to match the tag
 - Prepares the release notes
 - Creates a new git tag with the version number
