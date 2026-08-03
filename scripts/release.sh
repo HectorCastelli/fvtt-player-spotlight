@@ -16,7 +16,7 @@ sh "$SCRIPT_DIR/bundle.sh" "$VERSION_NUMBER"
 
 echo "Preparing release notes..."
 LOG_FORMAT="- %s (%h) by %cN"
-PREVIOUS_TAG=$(git describe --tags --abbrev=0 "HEAD^" 2>/dev/null || echo "")
+PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
 if [ -z "$PREVIOUS_TAG" ]; then
 	COMMITS=$(git log --pretty=format:"$LOG_FORMAT")
 else
@@ -36,10 +36,33 @@ echo "Creating annotated tag..."
 git tag "$VERSION_NUMBER" -m "$(cat release_notes.md)"
 git push && git push --tags
 
-echo "Creating draft release"
-gh release create "$VERSION_NUMBER" \
-	--draft \
+echo "Creating GitHub release"
+RELEASE_URL=$(gh release create "$VERSION_NUMBER" \
+	--latest \
 	--title "$VERSION_NUMBER" \
 	--notes-file release_notes.md \
 	module.zip \
-	dist/module.json
+	dist/module.json)
+echo "Created: $RELEASE_URL"
+
+echo "Updating FoundryVTT Module submission"
+jq \
+	--arg version "$VERSION_NUMBER" \
+	--arg manifest "https://github.com/HectorCastelli/fvtt-player-spotlight/releases/download/$VERSION_NUMBER/module.json" \
+	--arg notes "$RELEASE_URL" \
+	'. as $m |
+  {
+    id: .id,
+    release: {
+      version: $version,
+      manifest: $manifest,
+      notes: $notes,
+      compatibility: .compatibility
+    }
+  }
+' "dist/module.json" >foundry-payload.json
+
+curl -X POST "https://foundryvtt.com/_api/packages/release_version/" \
+	-H "Content-Type: application/json" \
+	-H "Authorization: $FOUNDRY_API_TOKEN" \
+	-d @foundry-payload.json
