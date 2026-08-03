@@ -20,7 +20,7 @@ Hooks.once('init', async function () {
             [SORT_MODES.QUEUE]: "fvtt-player-spotlight.sortMode.queue",
             [SORT_MODES.STABLE]: "fvtt-player-spotlight.sortMode.stable",
         },
-        default: SORT_MODES.QUEUE,
+        default: SORT_MODES.STABLE,
     });
 
     // Prepare data storage
