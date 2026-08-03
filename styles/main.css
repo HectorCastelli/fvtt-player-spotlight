@@ -24,9 +24,16 @@
                 justify-content: flex-start;
 
                 /* Bar chart background scaled by count */
+                /* If the attribute is present but empty, show explicit 0 */
+                &[data-spotlight-count=""]::after {
+                    display: block;
+                    content: "(0)";
+                }
+
                 &::after {
                     display: block;
-                    content: "(" attr(data-spotlight-count, "0") ")";
+                    /* Use the attribute value; if it's empty the above rule shows (0) */
+                    content: "(" attr(data-spotlight-count) ")";
                     text-align: center;
 
                     padding: 0.25em 1em;
