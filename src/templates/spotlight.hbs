@@ -2,7 +2,7 @@
     <ol class="spotlight-list" data-spotlight-sort="{{spotlight.sortMode}}">
         {{#each spotlight.players}}
         {{#with this as | player |}}
-        <li data-action="spotlight" data-user-id="{{player.id}}"
+        <li data-action="spotlight" data-user-id="{{player.id}}" data-spotlight-visible="{{player.visible}}"
             data-spotlight-count="{{lookup ../spotlight.session.counts player.id}}"
             data-spotlight-latest="{{ifThen (eq player.id ../spotlight.session.lastPlayer) 'true' 'false'}}">
             <button type="button">

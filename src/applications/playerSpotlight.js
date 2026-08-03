@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START } from '../constants.js';
+import { MODULE_NAME, DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START, PLAYER_FILTER } from '../constants.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -30,11 +30,13 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     #sortMode;
+    #activeFilter;
 
     constructor(options = {}) {
         super(options);
 
         this.#sortMode = game.settings.get(MODULE_NAME, SORT_MODE);
+        this.#activeFilter = game.settings.get(MODULE_NAME, PLAYER_FILTER) ?? false;
 
         // Auto-start a new session if the setting is enabled and the last session is from a different day
         if (game.settings.get(MODULE_NAME, SESSION_AUTO_START)) {
@@ -70,11 +72,18 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     #getContextData(spotlightData = game.settings.get(MODULE_NAME, DATA)) {
-        console.debug('Preparing context data for player spotlight', { spotlightData });
+        console.debug('Preparing context data for player spotlight', { spotlightData, activeFilter: this.#activeFilter, sortMode: this.#sortMode });
         const result = {};
 
+        const latestSession = spotlightData.at(-1);
+
+        // Setup visible users
         const { users } = game;
-        result.players = users.players;
+        result.players = users.players.map(({ id, name, active }) => ({
+            id,
+            name,
+            visible: this.#activeFilter ? active : true,
+        }));
 
         result.sortMode = this.#sortMode;
         if (this.#sortMode === SORT_MODES.STABLE) {
@@ -82,7 +91,6 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             result.players.sort((a, b) => a.name.localeCompare(b.name));
         }
 
-        const latestSession = spotlightData.at(-1);
         if (latestSession) {
             result.session = {
                 current: spotlightData.at(-1).date,

@@ -56,11 +56,11 @@ You can *left-click* a player card to indicate they received a spotlight, or *ri
 
 Clicking a player card will always register the spotlight on the most recently created session.
 
-### 🔜 Show and hide players quickly
+### See active players
 
-If you share a world between multiple groups, you can show and hide specific players quickly, reducing the visual noise and keeping the interface clean for you.
+If you share a world between multiple groups, the player list might be long, but you won't be tracking everyone during a session.
 
-To do so, you can *right-click* on the players list and `Track spotlight`/`Hide spotlight` for the current session.
+To reduce visual noise and keep the interface clean, only players that are active or have joined the current session at least once will be visible.
 
 #### 🔜 Create group templates
 

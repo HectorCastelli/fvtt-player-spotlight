@@ -23,6 +23,11 @@
                 /* Keep buttons pinned to the top of the screen */
                 justify-content: flex-start;
 
+                /* Hide entries that should not be visible */
+                &[data-spotlight-visible=false] {
+                    display: none;
+                }
+
                 /* Bar chart background scaled by count */
                 /* If the attribute is present but empty, show explicit 0 */
                 &[data-spotlight-count=""]::after {

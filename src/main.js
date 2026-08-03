@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA, RESET_DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START } from './constants.js';
+import { MODULE_NAME, DATA, RESET_DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START, PLAYER_FILTER } from './constants.js';
 import { PlayerSpotlight } from './applications/playerSpotlight.js';
 
 // Helpers
@@ -25,6 +25,15 @@ Hooks.once('init', async function () {
     game.settings.register(MODULE_NAME, SESSION_AUTO_START, {
         name: "fvtt-player-spotlight.sessionAutoStart.title",
         hint: "fvtt-player-spotlight.sessionAutoStart.description",
+        scope: 'world',
+        config: true,
+        requiresReload: true,
+        type: Boolean,
+        default: false,
+    });
+    game.settings.register(MODULE_NAME, PLAYER_FILTER, {
+        name: "fvtt-player-spotlight.playerFilter.title",
+        hint: "fvtt-player-spotlight.playerFilter.description",
         scope: 'world',
         config: true,
         requiresReload: true,

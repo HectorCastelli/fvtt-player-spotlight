@@ -7,4 +7,4 @@ export const SORT_MODES = {
     STABLE: 'stable',
 }
 export const SESSION_AUTO_START = 'sessionAutoStart';
-export const VISIBLE = 'visible';
+export const PLAYER_FILTER = 'playerFilter';

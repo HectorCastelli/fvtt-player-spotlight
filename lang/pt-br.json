@@ -11,5 +11,7 @@
     "fvtt-player-spotlight.sessionAutoStart.description": "Se habilitado, o modulo cria uma nova sessão quando ativado, desde que a data da ultima sessão registrada seja diferente da atual.",
     "fvtt-player-spotlight.session.current": "Sessão Atual",
     "fvtt-player-spotlight.session.none": "Nenhuma ainda",
-    "fvtt-player-spotlight.session.start": "Nova Sessão"
+    "fvtt-player-spotlight.session.start": "Nova Sessão",
+    "fvtt-player-spotlight.playerFilter.title": "Filtro de jogadores",
+    "fvtt-player-spotlight.playerFilter.description": "Se habilitado, somente jogadores ativos/conectados serão mostrados na lista de Destaques."
 }
