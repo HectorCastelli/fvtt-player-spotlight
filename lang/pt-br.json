@@ -1,0 +1,15 @@
+{
+    "fvtt-player-spotlight.controlTitle": "Destaques",
+    "fvtt-player-spotlight.resetData.title": "Limpar dados",
+    "fvtt-player-spotlight.resetData.description": "Limpa todos os dados armazenados até o momento. Essa ação é destrutiva e não tem volta.",
+    "fvtt-player-spotlight.sortMode.title": "Ordenação",
+    "fvtt-player-spotlight.sortMode.description": "Como ordenar os jogadores conforme os destaques são adicionados e removidos.",
+    "fvtt-player-spotlight.sortMode.queue": "Fila",
+    "fvtt-player-spotlight.sortMode.stable": "Estável",
+    "fvtt-player-spotlight.spotlight.latest": "Ultimo Destaque",
+    "fvtt-player-spotlight.sessionAutoStart.title": "Criar sessão automaticamente",
+    "fvtt-player-spotlight.sessionAutoStart.description": "Se habilitado, o modulo cria uma nova sessão quando ativado, desde que a data da ultima sessão registrada seja diferente da atual.",
+    "fvtt-player-spotlight.session.current": "Sessão Atual",
+    "fvtt-player-spotlight.session.none": "Nenhuma ainda",
+    "fvtt-player-spotlight.session.start": "Nova Sessão"
+}
