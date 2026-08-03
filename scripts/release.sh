@@ -70,4 +70,11 @@ fi
 curl -X POST "https://foundryvtt.com/_api/packages/release_version/" \
 	-H "Content-Type: application/json" \
 	-H "Authorization: $FOUNDRY_API_TOKEN" \
-	-d @foundry-payload.json
+	-d @foundry-payload.json >foundry-response.json
+
+STATUS=$(jq -r '.status' foundry-response.json)
+if [ "$STATUS" != "success" ]; then
+	echo "FoundryVTT package release failed with status: $STATUS"
+	jq -e '.' foundry-response.json
+	exit 3
+fi
