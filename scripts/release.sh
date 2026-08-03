@@ -62,6 +62,11 @@ jq \
   }
 ' "dist/module.json" >foundry-payload.json
 
+if [ -z "$FOUNDRY_API_TOKEN" ]; then
+	echo 'Unable to find FOUNDRY_API_TOKEN. FoundryVTT submission was not updated.'
+	exit 2
+fi
+
 curl -X POST "https://foundryvtt.com/_api/packages/release_version/" \
 	-H "Content-Type: application/json" \
 	-H "Authorization: $FOUNDRY_API_TOKEN" \

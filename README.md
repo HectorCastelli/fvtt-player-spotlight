@@ -108,6 +108,9 @@ When a new version of the module is ready to be released, we use the [`release.s
 To use this script, run it and provide the new version number, for example:
 
 ```sh
+# Load .env with secrets
+. ./.env
+# Run release workflow
 ./scripts/release.sh 1.2.3
 ```
 
