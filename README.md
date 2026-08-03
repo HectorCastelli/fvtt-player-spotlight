@@ -16,7 +16,7 @@ Alternatively, you can use the url `https://github.com/HectorCastelli/fvtt-playe
 
 ### Keep an eye on the spotlight
 
-Click the spotlight icon on the right of the player list, to display the `Spotlight Tracker` window.
+Click the spotlight icon on the right of the player list, to display the `Player Spotlight` window.
 
 ![Spotlight button shown in the token tool bar](./assets/activation.png)
 
@@ -24,12 +24,12 @@ Once open, you will have access to an up-to-date view on how the spotlight is be
 
 ![Spotlight window showing the list of players](./assets/window.png)
 
-#### 🔜 Tracking your game
+#### Tracking your game
 
 We offer two view modes that you can toggle:
 
-- `Campaign Mode`: shows all the data available. Highlighting the portion that corresponds to the current session. 
-- `Session Mode`: shows only the data for the current session.
+- `Session Mode`: Shows only the data for the current session.
+- 🔜 `Campaign Mode`: shows all the data available. Highlighting the portion that corresponds to the current session. 
 
 <!-- TODO: show screenshot of this feature. -->
 
@@ -44,19 +44,11 @@ To help you determine who should receive the spotlight next, we offer two modes:
 | :-: | :-: |
 | [Queue mode in action](./assets/queue-mode.mp4) | [Stable mode in action](./assets/queue-mode.mp4) |
 
-#### 🔜 Track characters
-
-You can switch the tracking mode to display the Player's character names instead of their names by changing the `Use Name` settings between:
-
-- `Player names`: Shows player names.
-- `Character names`: Shows the name of the character associated with the player.
-- `Mixed`: Shows the name of the character associated with the player, and the player name side by side.
-
 ### Track sessions
 
 When you start a new session, you can press the `New session` button. This will start a new, clean, tracker for the current session.
 
-Optionally, this can be done automatically when the date changes.
+Optionally, this can be done automatically when the date changes by enabling the `Session Auto Start` setting.
 
 ### Track when you spotlight a player 
 
@@ -64,17 +56,21 @@ You can *left-click* a player card to indicate they received a spotlight, or *ri
 
 Clicking a player card will always register the spotlight on the most recently created session.
 
-### See active players
+### Who you see
 
-If you share a world between multiple groups, the player list might be long, but you won't be tracking everyone during a session.
+#### See active players
 
-To reduce visual noise and keep the interface clean, only players that are active or have joined the current session at least once will be visible.
+If you share a world between multiple groups, the player list might be long, but you might not want to see those that are offline during a session.
 
-#### 🔜 Create group templates
+To reduce visual noise and keep the interface clean, you can enable the `Player filter` setting, causing only players that are active will be visible.
 
-If you frequently switch between groups, you can create **Group templates** and quickly activate them.
+#### 🔜 Track characters
 
-This makes tracking and hiding players a one-click action instead of going manually thru each one.
+You can switch the tracking mode to display the Player's character names instead of their names by changing the `Use Name` settings between:
+
+- `Player names`: Shows player names.
+- `Character names`: Shows the name of the character associated with the player.
+- `Mixed`: Shows the name of the character associated with the player, and the player name side by side.
 
 ## Contributing
 
