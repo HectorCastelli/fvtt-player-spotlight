@@ -45,6 +45,9 @@
 
                     /* Dynamic height: responsive percentage based on count */
                     height: calc(2em + clamp(0.5em, calc(attr(data-spotlight-count number) / 40 * 100%), 100%));
+
+                    /* Animations */
+                    transition: height 0.5s ease-in-out, background 0.5s ease-in-out;
                 }
 
                 /* Hide the icon by default */
