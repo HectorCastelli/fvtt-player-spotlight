@@ -6,5 +6,7 @@
     "fvtt-player-spotlight.sortMode.description": "How to sort players as spotlight are given and removed.",
     "fvtt-player-spotlight.sortMode.queue": "Queue",
     "fvtt-player-spotlight.sortMode.stable": "Stable",
-    "fvtt-player-spotlight.spotlight.latest": "Latest"
+    "fvtt-player-spotlight.spotlight.latest": "Latest",
+    "fvtt-player-spotlight.sessionAutoStart.title": "Session Auto Start",
+    "fvtt-player-spotlight.sessionAutoStart.description": "If enabled, the plugin will automatically start a new spotlight session when the window is open and the current date differs from the date of the last registered session."
 }

@@ -40,7 +40,7 @@ To help you determine who should receive the spotlight next, we offer two modes:
 
 <!-- TODO: show the icon and screenshots here. Compare the two functionalities. Consider a video to showcase the feature in action. -->
 
-### 🔜 Track sessions
+### Track sessions
 
 When you start a new session, you can press the `New session` button. This will start a new, clean, tracker for the current session.
 

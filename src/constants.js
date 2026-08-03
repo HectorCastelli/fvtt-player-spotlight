@@ -6,3 +6,4 @@ export const SORT_MODES = {
     QUEUE: 'queue',
     STABLE: 'stable',
 }
+export const SESSION_AUTO_START = 'sessionAutoStart';

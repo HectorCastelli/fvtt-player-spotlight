@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA, SORT_MODE, SORT_MODES } from '../constants.js';
+import { MODULE_NAME, DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START } from '../constants.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -31,6 +31,16 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
         super(options);
 
         this.#sortMode = game.settings.get(MODULE_NAME, SORT_MODE);
+
+        // Auto-start a new session if the setting is enabled and the last session is from a different day
+        if (game.settings.get(MODULE_NAME, SESSION_AUTO_START)) {
+            const spotlightData = game.settings.get(MODULE_NAME, DATA);
+            const latestSession = spotlightData.at(-1);
+            console.debug('Auto-starting new session if needed', { latestSession: latestSession ? new Date(latestSession.date).toDateString() : undefined, today: new Date().toDateString() });
+            if (latestSession && new Date(latestSession.date).toDateString() !== new Date().toDateString()) {
+                void this.startSession();
+            }
+        }
     }
 
     _attachPartListeners(partId, htmlElement, options) {

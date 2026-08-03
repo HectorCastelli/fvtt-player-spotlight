@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA, RESET_DATA, SORT_MODE, SORT_MODES } from './constants.js';
+import { MODULE_NAME, DATA, RESET_DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START } from './constants.js';
 import { PlayerSpotlight } from './applications/playerSpotlight.js';
 
 // Helpers
@@ -21,6 +21,15 @@ Hooks.once('init', async function () {
             [SORT_MODES.STABLE]: "fvtt-player-spotlight.sortMode.stable",
         },
         default: SORT_MODES.STABLE,
+    });
+    game.settings.register(MODULE_NAME, SESSION_AUTO_START, {
+        name: "fvtt-player-spotlight.sessionAutoStart.title",
+        hint: "fvtt-player-spotlight.sessionAutoStart.description",
+        scope: 'world',
+        config: true,
+        requiresReload: true,
+        type: Boolean,
+        default: false,
     });
 
     // Prepare data storage
