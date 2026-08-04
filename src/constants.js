@@ -8,3 +8,9 @@ export const SORT_MODES = {
 }
 export const SESSION_AUTO_START = 'sessionAutoStart';
 export const PLAYER_FILTER = 'playerFilter';
+export const NAME_MODE = 'nameMode';
+export const NAME_MODES = {
+    PLAYER: 'player',
+    CHARACTER: 'character',
+    MIXED: 'mixed'
+}

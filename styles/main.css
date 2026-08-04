@@ -28,6 +28,28 @@
                     display: none;
                 }
 
+                /* Style the buttons to handle large text */
+                &>button {
+                    min-width: 0;
+                    width: auto;
+
+                    min-height: 2em;
+                    height: auto;
+
+                    white-space: normal;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    &>p {
+                        margin: 0;
+                        max-width: 100%;
+                        white-space: pre-line;
+                        /* overflow: hidden; */
+                        text-overflow: ellipsis;
+                    }
+                }
+
                 /* Bar chart background scaled by count */
                 /* If the attribute is present but empty, show explicit 0 */
                 &[data-spotlight-count=""]::after {
@@ -56,12 +78,12 @@
                 }
 
                 /* Hide the icon by default */
-                &>*>i {
+                &>button>i {
                     display: none;
                 }
 
                 /* Show the icon if the data-spotlight-latest attribute is true */
-                &[data-spotlight-latest=true]>*>i {
+                &[data-spotlight-latest=true]>button>i {
                     display: inline-block;
                 }
             }

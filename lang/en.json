@@ -13,5 +13,10 @@
     "fvtt-player-spotlight.session.none": "None yet",
     "fvtt-player-spotlight.session.start": "New Session",
     "fvtt-player-spotlight.playerFilter.title": "Player filter",
-    "fvtt-player-spotlight.playerFilter.description": "Whether to show only active/connected players on the tracker."
+    "fvtt-player-spotlight.playerFilter.description": "Whether to show only active/connected players on the tracker.",
+    "fvtt-player-spotlight.nameMode.title": "Name Display",
+    "fvtt-player-spotlight.nameMode.description": "How should each player be represented in the tracker?",
+    "fvtt-player-spotlight.nameMode.player": "Player Name",
+    "fvtt-player-spotlight.nameMode.character": "Character Name",
+    "fvtt-player-spotlight.nameMode.mixed": "Mixed (Character + Player Names)"
 }

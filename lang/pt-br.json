@@ -13,5 +13,10 @@
     "fvtt-player-spotlight.session.none": "Nenhuma ainda",
     "fvtt-player-spotlight.session.start": "Nova Sessão",
     "fvtt-player-spotlight.playerFilter.title": "Filtro de jogadores",
-    "fvtt-player-spotlight.playerFilter.description": "Se habilitado, somente jogadores ativos/conectados serão mostrados na lista de Destaques."
+    "fvtt-player-spotlight.playerFilter.description": "Se habilitado, somente jogadores ativos/conectados serão mostrados na lista de Destaques.",
+    "fvtt-player-spotlight.nameMode.title": "Name Display",
+    "fvtt-player-spotlight.nameMode.description": "How should each player be represented in the tracker?",
+    "fvtt-player-spotlight.nameMode.player": "Player Name",
+    "fvtt-player-spotlight.nameMode.character": "Character Name",
+    "fvtt-player-spotlight.nameMode.mixed": "Mixed (Character + Player Names)"
 }

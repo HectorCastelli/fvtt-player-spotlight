@@ -64,7 +64,7 @@ If you share a world between multiple groups, the player list might be long, but
 
 To reduce visual noise and keep the interface clean, you can enable the `Player filter` setting, causing only players that are active will be visible.
 
-#### 🔜 Track characters
+#### Track Characters & Players
 
 You can switch the tracking mode to display the Player's character names instead of their names by changing the `Use Name` settings between:
 

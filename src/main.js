@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA, RESET_DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START, PLAYER_FILTER } from './constants.js';
+import { MODULE_NAME, DATA, RESET_DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START, PLAYER_FILTER, NAME_MODE, NAME_MODES } from './constants.js';
 import { PlayerSpotlight } from './applications/playerSpotlight.js';
 
 // Helpers
@@ -40,6 +40,20 @@ Hooks.once('init', async function () {
         type: Boolean,
         default: false,
     });
+    game.settings.register(MODULE_NAME, NAME_MODE, {
+        name: "fvtt-player-spotlight.nameMode.title",
+        hint: "fvtt-player-spotlight.nameMode.description",
+        scope: 'world',
+        config: true,
+        requiresReload: true,
+        type: String,
+        choices: {
+            [NAME_MODES.PLAYER]: "fvtt-player-spotlight.nameMode.player",
+            [NAME_MODES.CHARACTER]: "fvtt-player-spotlight.nameMode.character",
+            [NAME_MODES.MIXED]: "fvtt-player-spotlight.nameMode.mixed",
+        },
+        default: NAME_MODES.PLAYER,
+    })
 
     // Prepare data storage
     game.settings.register(MODULE_NAME, RESET_DATA, {

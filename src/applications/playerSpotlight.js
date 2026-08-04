@@ -1,4 +1,4 @@
-import { MODULE_NAME, DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START, PLAYER_FILTER } from '../constants.js';
+import { MODULE_NAME, DATA, SORT_MODE, SORT_MODES, SESSION_AUTO_START, PLAYER_FILTER, NAME_MODE, NAME_MODES } from '../constants.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -30,12 +30,14 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     #sortMode;
+    #nameMode;
     #activeFilter;
 
     constructor(options = {}) {
         super(options);
 
         this.#sortMode = game.settings.get(MODULE_NAME, SORT_MODE);
+        this.#nameMode = game.settings.get(MODULE_NAME, NAME_MODE);
         this.#activeFilter = game.settings.get(MODULE_NAME, PLAYER_FILTER) ?? false;
 
         // Auto-start a new session if the setting is enabled and the last session is from a different day
@@ -79,18 +81,37 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     #getContextData(spotlightData = game.settings.get(MODULE_NAME, DATA)) {
-        console.debug('Preparing context data for player spotlight', { spotlightData, activeFilter: this.#activeFilter, sortMode: this.#sortMode });
+        console.debug('Preparing context data for player spotlight', { spotlightData, activeFilter: this.#activeFilter, sortMode: this.#sortMode, nameMode: this.#nameMode });
         const result = {};
 
         const latestSession = spotlightData.at(-1);
 
         // Setup visible users
         const { users } = game;
-        result.players = users.players.map(({ id, name, active }) => ({
-            id,
-            name,
-            visible: this.#activeFilter ? active : true,
-        }));
+        console.log({ players: users.players });
+        result.players = users.players.map(({ id, name, active, character }) => {
+            const playerName = name;
+            const characterName = character.name; // TODO: study more systems and find fallbacks
+
+            let entryName;
+            switch (this.#nameMode) {
+                case NAME_MODES.PLAYER:
+                    entryName = playerName;
+                    break;
+                case NAME_MODES.CHARACTER:
+                    entryName = characterName;
+                    break;
+                case NAME_MODES.MIXED:
+                    entryName = `${characterName} (${playerName})`;
+                    break;
+            }
+
+            return {
+                id,
+                name: entryName,
+                visible: this.#activeFilter ? active : true,
+            }
+        });
 
         result.sortMode = this.#sortMode;
         if (this.#sortMode === SORT_MODES.STABLE) {
