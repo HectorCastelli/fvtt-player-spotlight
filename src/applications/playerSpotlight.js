@@ -44,7 +44,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
             const latestSession = spotlightData.at(-1);
             console.debug('Auto-starting new session if needed', { latestSession: latestSession ? new Date(latestSession.date).toDateString() : undefined, today: new Date().toDateString() });
             if (latestSession && new Date(latestSession.date).toDateString() !== new Date().toDateString()) {
-                void this.#startSession();
+                void this.#newSession();
             }
         }
 
