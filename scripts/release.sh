@@ -1,7 +1,8 @@
 #!/bin/sh
 
 set -e
-SCRIPT_DIR="$(dirname "$0")"
+REPO_ROOT=$(git rev-parse --show-toplevel)
+SCRIPT_DIR="$REPO_ROOT/scripts"
 
 echo "Preparing release artifacts..."
 # Get version number from argument (default to "latest" if not provided)
@@ -62,6 +63,8 @@ jq \
   }
 ' "dist/module.json" >foundry-payload.json
 
+# shellcheck source=/dev/null
+. "$REPO_ROOT/.env" || echo "Not able to load .env"
 if [ -z "$FOUNDRY_API_TOKEN" ]; then
 	echo 'Unable to find FOUNDRY_API_TOKEN. FoundryVTT submission was not updated.'
 	exit 2
