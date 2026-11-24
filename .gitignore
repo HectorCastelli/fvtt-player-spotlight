@@ -4,3 +4,6 @@
 /dist/
 # Node.js
 node_modules/
+# FoundryVTT local test instance
+test/local/instance
+test/local/data

@@ -1,4 +1,4 @@
-import { lstatSync, realpathSync, symlinkSync, unlinkSync } from "node:fs";
+import { existsSync, mkdirSync, rmSync, symlinkSync } from "node:fs";
 import { join } from "node:path";
 
 console.log("Installing the module...");
@@ -18,33 +18,15 @@ if (!foundryDataPath) {
 // Symlink module to the foundry instance
 const targetPath = join(foundryDataPath, "modules", "fvtt-player-spotlight");
 const sourcePath = join(import.meta.dirname, "..");
-const expectedTarget = realpathSync(sourcePath);
-let targetStats;
-try {
-	targetStats = lstatSync(targetPath);
-} catch (error) {
-	if (error.code !== "ENOENT") {
-		throw error;
-	}
-}
 
-let isCurrentLink = false;
-if (targetStats?.isSymbolicLink()) {
-	try {
-		isCurrentLink = realpathSync(targetPath) === expectedTarget;
-	} catch (error) {
-		if (error.code !== "ENOENT" && error.code !== "ENOTDIR") {
-			throw error;
-		}
-	}
-	if (!isCurrentLink) {
-		unlinkSync(targetPath);
-	}
+if (existsSync(targetPath)) {
+	// Remove existing directory if needed
+	rmSync(targetPath, {
+		recursive: true,
+		force: true,
+	});
 }
+mkdirSync(join(foundryDataPath, "modules"), { recursive: true });
 
-if (isCurrentLink) {
-	console.log("Module already installed. Skipping installation.");
-} else {
-	symlinkSync(sourcePath, targetPath);
-	console.log("Module installed successfully.");
-}
+symlinkSync(sourcePath, targetPath, "dir");
+console.log("Module installed successfully.");
