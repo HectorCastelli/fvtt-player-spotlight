@@ -105,19 +105,18 @@ npm run localInstall -- /my/foundry/Data
 
 When a new version of the module is ready to be released, we use the [release script](./scripts/release.js).
 
-To use this script, provide the new version number, for example:
+To use this script, choose a version bump type, for example:
 
 ```sh
-npm run release -- 1.2.3
+npm run release -- patch
 ```
 
-Version numbers adhere to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
+Version numbers adhere to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html). The script will find the latest version published then apply the requested `major`, `minor`, or `patch` bump.
 
 The script will:
 
 - Generate `dist/CHANGELOG.md` from commits since the previous release
-- Generate an updated `dist/module.json` with the release version
+- Generate an updated `dist/module.json` with the new version
 - Build `dist/module.zip` directly from the necessary module files, without an intermediate copy
-- Creates a new git tag with the version number
-- Pushes changes to GitHub
-- Creates a new release with the necessary assets and release notes
+- Create an annotated Git tag and push the branch and tag to GitHub
+- Create a GitHub release with the generated assets and changelog

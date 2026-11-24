@@ -1,12 +1,14 @@
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import { join } from "node:path";
+import { inc, rsort, valid } from "semver";
 import { simpleGit } from "simple-git";
 import { bundle } from "./bundle.js";
 
 const repoRoot = join(import.meta.dirname, "..");
 const workingDirectory = repoRoot;
-const git = simpleGit(workingDirectory).outputHandler(
+const git = simpleGit(workingDirectory);
+const publishingGit = simpleGit(workingDirectory).outputHandler(
 	(_command, stdout, stderr) => {
 		stdout.pipe(process.stdout);
 		stderr.pipe(process.stderr);
@@ -14,13 +16,39 @@ const git = simpleGit(workingDirectory).outputHandler(
 );
 
 console.log("Preparing release artifacts...");
-// Get version number from argument (default to "latest" if not provided)
-const versionNumber = process.argv[2];
-if (!versionNumber) {
-	console.error("No version number provided.");
+const bumpType = process.argv[2];
+if (!["major", "minor", "patch"].includes(bumpType)) {
+	console.error("Version bump must be one of: major, minor, patch.");
 	process.exit(1);
 }
 
+const remoteTags = await git.listRemote(["--tags", "--refs", "origin"]);
+const versions = [];
+for (const line of remoteTags.split(/\r?\n/)) {
+	const tagName = line
+		.trim()
+		.split(/\s+/)
+		.at(-1)
+		?.replace(/^refs\/tags\//, "");
+	const version = tagName ? valid(tagName) : null;
+	if (version) {
+		versions.push(version);
+	}
+}
+
+const latestVersion = rsort(versions)[0];
+if (!latestVersion) {
+	throw new Error("No valid SemVer tags found on origin.");
+}
+
+const versionNumber = inc(latestVersion, bumpType);
+if (!versionNumber) {
+	throw new Error(`Could not apply ${bumpType} bump to ${latestVersion}.`);
+}
+
+console.log(
+	`Releasing ${versionNumber} (${bumpType} bump from ${latestVersion})`,
+);
 console.log("Bundle release");
 await bundle(versionNumber);
 
@@ -29,8 +57,8 @@ const changelog = fs.readFileSync(changelogPath, "utf8");
 
 console.log("Creating annotated tag...");
 await git.addAnnotatedTag(versionNumber, changelog.trimEnd());
-await git.push();
-await git.push(["--tags"]);
+await publishingGit.push();
+await publishingGit.push(["--tags"]);
 
 console.log("Creating GitHub release");
 let releaseUrl;

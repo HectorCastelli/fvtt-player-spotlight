@@ -28,6 +28,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.6.5",
 		"husky": "^9.1.7",
+		"semver": "^7.8.6",
 		"simple-git": "^4.1.0",
 		"yazl": "^3.3.1"
 	}
