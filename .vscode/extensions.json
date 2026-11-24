@@ -1,8 +1,9 @@
 {
-    "recommendations": [
-        "streetsidesoftware.code-spell-checker",
-        "streetsidesoftware.code-spell-checker-cspell-bundled-dictionaries",
-        "timonwong.shellcheck",
-        "mkhl.shfmt"
-    ]
+	"recommendations": [
+		"streetsidesoftware.code-spell-checker",
+		"streetsidesoftware.code-spell-checker-cspell-bundled-dictionaries",
+		"timonwong.shellcheck",
+		"mkhl.shfmt",
+		"biomejs.biome"
+	]
 }

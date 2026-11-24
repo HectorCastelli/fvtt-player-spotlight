@@ -1,0 +1,24 @@
+{
+	"name": "fvtt-player-spotlight",
+	"version": "1.0.0",
+	"description": "A foundryVTT module that helps GMs track who is getting the spotlight during sessions and campaigns.",
+	"homepage": "https://github.com/HectorCastelli/fvtt-player-spotlight#readme",
+	"bugs": {
+		"url": "https://github.com/HectorCastelli/fvtt-player-spotlight/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HectorCastelli/fvtt-player-spotlight.git"
+	},
+	"license": "Unlicense",
+	"author": "Hector Castelli Zacharias <hector.zacharias@gmail.com>",
+	"type": "module",
+	"main": "src/main.js",
+	"scripts": {
+		"check": "biome check",
+		"format": "biome check --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.6.5"
+	}
+}
