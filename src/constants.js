@@ -6,7 +6,6 @@ export const SORT_MODES = {
 	QUEUE: "queue",
 	STABLE: "stable",
 };
-export const SESSION_AUTO_START = "sessionAutoStart";
 export const PLAYER_FILTER = "playerFilter";
 export const NAME_MODE = "nameMode";
 export const NAME_MODES = {
@@ -14,3 +13,4 @@ export const NAME_MODES = {
 	CHARACTER: "character",
 	MIXED: "mixed",
 };
+export const CHARACTER_NAME_FALLBACK = "characterFallback";

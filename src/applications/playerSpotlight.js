@@ -1,13 +1,13 @@
 import {
-	DATA,
+	CHARACTER_NAME_FALLBACK,
 	MODULE_NAME,
 	NAME_MODE,
 	NAME_MODES,
 	PLAYER_FILTER,
-	SESSION_AUTO_START,
 	SORT_MODE,
 	SORT_MODES,
 } from "../constants.js";
+import { spotlightTracker } from "../tracker.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -39,42 +39,9 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 		},
 	};
 
-	#sortMode;
-	#nameMode;
-	#activeFilter;
-
 	constructor(options = {}) {
 		super(options);
-
-		this.#sortMode = game.settings.get(MODULE_NAME, SORT_MODE);
-		this.#nameMode = game.settings.get(MODULE_NAME, NAME_MODE);
-		this.#activeFilter = game.settings.get(MODULE_NAME, PLAYER_FILTER) ?? false;
-
-		// Auto-start a new session if the setting is enabled and the last session is from a different day
-		if (game.settings.get(MODULE_NAME, SESSION_AUTO_START)) {
-			const spotlightData = game.settings.get(MODULE_NAME, DATA);
-			const latestSession = spotlightData.at(-1);
-			console.debug("Auto-starting new session if needed", {
-				latestSession: latestSession
-					? new Date(latestSession.date).toDateString()
-					: undefined,
-				today: new Date().toDateString(),
-			});
-			if (
-				latestSession &&
-				new Date(latestSession.date).toDateString() !==
-					new Date().toDateString()
-			) {
-				void this.#newSession();
-			}
-		}
-
-		// Watch player connection events
-		if (this.#activeFilter) {
-			Hooks.on("userConnected", (user, connected) => {
-				PlayerSpotlight.refreshCurrentUI();
-			});
-		}
+		this.#setupUserConnectionHook();
 	}
 
 	_attachPartListeners(partId, htmlElement, options) {
@@ -103,26 +70,56 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 		return context;
 	}
 
-	#getContextData(spotlightData = game.settings.get(MODULE_NAME, DATA)) {
-		console.debug("Preparing context data for player spotlight", {
-			spotlightData,
-			activeFilter: this.#activeFilter,
-			sortMode: this.#sortMode,
-			nameMode: this.#nameMode,
-		});
-		const result = {};
+	/**
+	 * If configured to only display active users, add a hook to track user connection/disconnections and refresh the UI.
+	 */
+	#setupUserConnectionHook() {
+		if (this.activeFilter) {
+			console.debug("Spotlight will watch user connections");
+			Hooks.on("userConnected", (_user, _connected) => {
+				PlayerSpotlight.refreshCurrentUI(); // Refresh the full UI to ensure consistency
+			});
+		}
+	}
 
-		const latestSession = spotlightData.at(-1);
+	get sortMode() {
+		return game.settings.get(MODULE_NAME, SORT_MODE);
+	}
 
-		// Setup visible users
+	get nameMode() {
+		return game.settings.get(MODULE_NAME, NAME_MODE);
+	}
+
+	get activeFilter() {
+		return game.settings.get(MODULE_NAME, PLAYER_FILTER) ?? false;
+	}
+
+	/**
+	 * @typedef PlayerData
+	 *
+	 * @property {string} id The `BaseUser`.id
+	 * @property {string} name The formatted name of the user, following NAME_MODE preferences
+	 * @property {boolean} visible Whether to show or not this user's data. Follows PLAYER_FILTER, otherwise defaults to true.
+	 */
+
+	/**
+	 * Fetch, prepare, then sort player data for display
+	 * @returns {array<PlayerData>} The resulting data
+	 */
+	#getPlayerData() {
 		const { users } = game;
-		console.log({ players: users.players });
-		result.players = users.players.map(({ id, name, active, character }) => {
+		const { players } = users;
+		console.debug("User data for spotlights", { players });
+		const data = players.map(({ id, name, active, character }) => {
 			const playerName = name;
-			const characterName = character.name; // TODO: study more systems and find fallbacks
+			const characterName =
+				character?.name ??
+				game.i18n.localize(
+					`${MODULE_NAME}.${NAME_MODE}.${CHARACTER_NAME_FALLBACK}`,
+				); // TODO: study more systems and find fallbacks
 
 			let entryName;
-			switch (this.#nameMode) {
+			switch (this.nameMode) {
 				case NAME_MODES.PLAYER:
 					entryName = playerName;
 					break;
@@ -137,29 +134,42 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 			return {
 				id,
 				name: entryName,
-				visible: this.#activeFilter ? active : true,
+				visible: this.activeFilter ? active : true, // Always visible if active filter is not true
 			};
 		});
 
-		result.sortMode = this.#sortMode;
-		if (this.#sortMode === SORT_MODES.STABLE) {
+		if (this.sortMode === SORT_MODES.STABLE) {
 			// Sort players by their names, alphabetically.
-			result.players.sort((a, b) => a.name.localeCompare(b.name));
+			data.sort((a, b) => a.name.localeCompare(b.name));
 		}
 
-		if (latestSession) {
-			result.session = {
-				current: spotlightData.at(-1).date,
-				currentDate: this.#prepareDate(spotlightData.at(-1).date),
-				lastPlayer: spotlightData.at(-1).spotlights.at(-1),
+		return data;
+	}
+
+	#getContextData() {
+		console.debug("Preparing context data for player spotlight", {
+			activeFilter: this.activeFilter,
+			sortMode: this.sortMode,
+			nameMode: this.nameMode,
+		});
+		const latestSession = spotlightTracker.latestSession();
+
+		const playerData = this.#getPlayerData();
+
+		const result = {
+			players: playerData,
+			session: {
+				current: latestSession.date,
+				currentDate: this.#prepareDate(latestSession.date),
+				lastPlayer: latestSession.spotlights.at(-1),
 				counts: Object.fromEntries(
-					result.players.map((player) => [
+					playerData.map((player) => [
 						player.id,
 						latestSession.spotlights.filter((e) => e === player.id).length,
 					]),
 				),
-			};
-		}
+			},
+		};
 
 		console.debug("Prepared context data for player spotlight", { result });
 		return result;
@@ -180,17 +190,6 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 		);
 	}
 
-	async #newSession() {
-		const spotlightData = game.settings.get(MODULE_NAME, DATA);
-
-		spotlightData.push({
-			date: Date.now(),
-			spotlights: [],
-		});
-
-		return game.settings.set(MODULE_NAME, DATA, spotlightData);
-	}
-
 	/**
 	 * Refreshes the UI to reflect the current state of the data.
 	 *
@@ -207,7 +206,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 				child.dataset.userId === contextData.session.lastPlayer;
 			child.dataset.spotlightCount =
 				contextData.session.counts[child.dataset.userId];
-			if (this.#activeFilter) {
+			if (this.activeFilter) {
 				child.dataset.spotlightVisible = contextData.players.find(
 					(p) => p.id === child.dataset.userId,
 				)?.visible;
@@ -219,21 +218,29 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 		);
 		if (sessionDateElement) {
 			sessionDateElement.textContent = this.#prepareDate(
-				contextData.session.currentDate,
+				contextData.session.current,
 			);
 		}
 	}
 
+	/**
+	 * Static helper that calls the partial UI refresh window if it is available
+	 */
 	static refreshCurrentUI() {
 		const instance = foundry.applications.instances.get(MODULE_NAME);
 		if (instance) {
 			instance._refreshUI();
+		} else {
+			console.warn(
+				"PlayerSpotlight window was requested a refresh but is not instantiated",
+			);
 		}
 	}
 
-	static async #startSession(event, element) {
-		await this.#newSession();
-		this._refreshUI();
+	//#region Foundry `data-action` UI Hooks
+	static async #startSession(_event, _element) {
+		spotlightTracker.newSession();
+		PlayerSpotlight.refreshCurrentUI();
 	}
 
 	static async #spotlight(event, element) {
@@ -242,42 +249,12 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 			console.error("Unable to locate userId", userId);
 		}
 
-		const userDocument = game.users.get(userId);
-		if (!userId) {
-			console.error(
-				"Unable to locate userDocument for user",
-				userId,
-				userDocument,
-			);
-		}
-
-		// Read the latest data from storage to avoid overwriting changes made by other clients
-		const spotlightData = game.settings.get(MODULE_NAME, DATA);
-
-		// Start a new session if none exists
-		if (!spotlightData.length) {
-			this.#newSession();
-		}
-		const latestSession = spotlightData.at(-1);
-
-		if (event.type === "contextmenu" || event.button === 2) {
-			const lastSpotlightIndex = latestSession.spotlights.findLastIndex(
-				(e) => e === userId,
-			);
-			if (lastSpotlightIndex >= 0) {
-				latestSession.spotlights.splice(lastSpotlightIndex, 1); // Remove last occurrence for this user
-			}
-		} else {
-			latestSession.spotlights.push(userDocument);
-		}
-
-		// Update the stored data with the modified values without blocking
-		void game.settings
-			.set(MODULE_NAME, DATA, spotlightData)
-			.catch((updateError) => {
-				console.error("Failed to update spotlight data", updateError);
-			});
-
-		this._refreshUI();
+		await spotlightTracker.trackSpotlight(
+			userId,
+			// Right click to remove
+			event.type === "contextmenu" || event.button === 2 ? "remove" : "add",
+		);
+		PlayerSpotlight.refreshCurrentUI();
 	}
+	//#endregion
 }

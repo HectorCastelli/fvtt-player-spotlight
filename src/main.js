@@ -6,7 +6,6 @@ import {
 	NAME_MODES,
 	PLAYER_FILTER,
 	RESET_DATA,
-	SESSION_AUTO_START,
 	SORT_MODE,
 	SORT_MODES,
 } from "./constants.js";
@@ -28,15 +27,6 @@ Hooks.once("init", async () => {
 			[SORT_MODES.STABLE]: `${MODULE_NAME}.${SORT_MODE}.stable`,
 		},
 		default: SORT_MODES.STABLE,
-	});
-	game.settings.register(MODULE_NAME, SESSION_AUTO_START, {
-		name: `${MODULE_NAME}.${SESSION_AUTO_START}.title`,
-		hint: `${MODULE_NAME}.${SESSION_AUTO_START}.description`,
-		scope: "world",
-		config: true,
-		requiresReload: true,
-		type: Boolean,
-		default: false,
 	});
 	game.settings.register(MODULE_NAME, PLAYER_FILTER, {
 		name: `${MODULE_NAME}.${PLAYER_FILTER}.title`,
@@ -83,16 +73,12 @@ Hooks.once("init", async () => {
 		scope: "world",
 		config: false, // Hide from settings UI
 		requiresReload: false,
-		/**
-		 * This is an array of objects with:
-		 *  - `date`: `Date.getTime()`
-		 *  - `spotlights`: Array of `BaseUser` IDs
-		 */
 		type: new foundry.data.fields.ArrayField(
 			new foundry.data.fields.SchemaField({
-				date: new foundry.data.fields.IntegerSortField(),
+				date: new foundry.data.fields.IntegerSortField(), // ms since UTC epoch
 				spotlights: new foundry.data.fields.ArrayField(
 					new foundry.data.fields.ForeignDocumentField(
+						// `BaseUser`.id
 						CONFIG.User.documentClass,
 						{ idOnly: true },
 					),

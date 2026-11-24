@@ -14,10 +14,6 @@
 		"spotlight": {
 			"latest": "Último Destaque"
 		},
-		"sessionAutoStart": {
-			"title": "Criar sessão automaticamente",
-			"description": "Se habilitado, o módulo cria uma nova sessão quando ativado, desde que a data da última sessão registrada seja diferente da atual."
-		},
 		"session": {
 			"current": "Sessão Atual",
 			"none": "Nenhuma ainda",
@@ -32,7 +28,8 @@
 			"description": "Como cada jogador deve ser representado na lista?",
 			"player": "Nome do jogador",
 			"character": "Nome do personagem",
-			"mixed": "Misto (Nome do personagem + Nome do jogador)"
+			"mixed": "Misto (Nome do personagem + Nome do jogador)",
+			"characterFallback": "Desconhecido"
 		}
 	}
 }

@@ -14,10 +14,6 @@
 		"spotlight": {
 			"latest": "Latest"
 		},
-		"sessionAutoStart": {
-			"title": "Session Auto Start",
-			"description": "If enabled, the module will automatically start a new spotlight session when the window is open and the current date differs from the date of the last registered session."
-		},
 		"session": {
 			"current": "Current Session",
 			"none": "None yet",
@@ -32,7 +28,8 @@
 			"description": "How should each player be represented in the tracker?",
 			"player": "Player Name",
 			"character": "Character Name",
-			"mixed": "Mixed (Character + Player Names)"
+			"mixed": "Mixed (Character + Player Names)",
+			"characterFallback": "Unknown"
 		}
 	}
 }
