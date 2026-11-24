@@ -17,13 +17,18 @@
 	"scripts": {
 		"secret": "gitleaks git --staged --redact --no-banner --exit-code 1",
 		"secret:history": "gitleaks git --redact --no-banner --exit-code 1 .",
-		"secret:build": "gitleaks dir --redact --no-banner --exit-code 1 dist && gitleaks dir --redact --no-banner --exit-code 1 --max-archive-depth 1 module.zip",
+		"secret:build": "gitleaks dir --redact --no-banner --exit-code 1 --max-archive-depth 1 dist",
 		"check": "biome check",
 		"format": "biome check --write",
+		"localInstall": "node scripts/local-install.js",
+		"bundle": "node scripts/bundle.js",
+		"release": "node scripts/release.js",
 		"prepare": "husky"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.6.5",
-		"husky": "^9.1.7"
+		"husky": "^9.1.7",
+		"simple-git": "^4.1.0",
+		"yazl": "^3.3.1"
 	}
 }

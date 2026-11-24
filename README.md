@@ -92,36 +92,32 @@ Submissions by AI systems without human supervision is not allowed.
 
 ### Development
 
-This repository comes with a [`install.sh` script](./scripts/install.sh) that can install the local module version into your instance.
+This repository comes with a [install script](./scripts/local-install.js) that can install the local module version into your instance.
 This is helpful to test changes as you develop new features.
 
-To use this script, run it and point to [your Foundry `Data/` folder path](https://foundryvtt.com/article/user-data/), for example:
+To use this script, run it with [your Foundry `Data/` folder path](https://foundryvtt.com/article/user-data/), for example:
 
 ```sh
-./scripts/install.sh /my/foundry/Data
+npm run localInstall -- /my/foundry/Data
 ```
 
 ### Release process
 
-When a new version of the module is ready to be released, we use the [`release.sh` script](./scripts/release.sh).
+When a new version of the module is ready to be released, we use the [release script](./scripts/release.js).
 
-To use this script, run it and provide the new version number, for example:
+To use this script, provide the new version number, for example:
 
 ```sh
-# Load .env with secrets
-. ./.env
-# Run release workflow
-./scripts/release.sh 1.2.3
+npm run release -- 1.2.3
 ```
 
 Version numbers adhere to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 The script will:
 
-- Bundles the files necessary for the module in a new folder
-  - This allows the final "shipped" version to be minimized and compressed without extra content like documentation, test, or media assets
-- Updates the version numbers in the `module.json` to match the tag
-- Prepares the release notes
+- Generate `dist/CHANGELOG.md` from commits since the previous release
+- Generate an updated `dist/module.json` with the release version
+- Build `dist/module.zip` directly from the necessary module files, without an intermediate copy
 - Creates a new git tag with the version number
 - Pushes changes to GitHub
 - Creates a new release with the necessary assets and release notes

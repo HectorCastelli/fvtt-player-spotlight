@@ -1,12 +1,6 @@
 # Ignore secrets
 .env
 # Ignore build outputs
-dist/
-module.zip
-# Ignore release outputs
-commits.md
-release_notes.md
-foundry-payload.json
-foundry-response.json
+/dist/
 # Node.js
 node_modules/
