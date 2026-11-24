@@ -61,8 +61,6 @@ Hooks.once("init", async () => {
 		},
 		default: NAME_MODES.PLAYER,
 	});
-
-	// Prepare data storage
 	game.settings.register(MODULE_NAME, RESET_DATA, {
 		name: `${MODULE_NAME}.${RESET_DATA}.title`,
 		hint: `${MODULE_NAME}.${RESET_DATA}.description`,
@@ -78,6 +76,8 @@ Hooks.once("init", async () => {
 			}
 		},
 	});
+
+	// Prepare data storage
 	game.settings.register(MODULE_NAME, DATA, {
 		name: `${MODULE_NAME}.${DATA}`,
 		scope: "world",
@@ -109,24 +109,32 @@ Hooks.once("setup", async () => {
 
 		// Configure spotlight UI button
 		Hooks.on("getSceneControlButtons", (controls) => {
+			if (canvas.ready) {
+				console.debug("Attaching UI to control pane", { controls });
+				controls.tokens.tools[MODULE_NAME] = {
+					icon: "fa-solid fa-person-rays",
+					name: MODULE_NAME,
+					title: game.i18n.localize(`${MODULE_NAME}.controlTitle`),
+					visible: game.user.isGM,
+					button: true,
+					order: Object.keys(controls.tokens.tools).length, // Always at the bottom
+					onChange(event, active) {
+						console.debug("Spotlight activated", { event, active });
+
+						const current = foundry.applications.instances.get(MODULE_NAME);
+						if (current) {
+							current.close();
+							return;
+						}
+						// Show the tracker
+						new PlayerSpotlight().render({ force: true });
+					},
+				};
+			} else {
+				console.warn("No scene is loaded. The spotlight UI can't be shown");
+			}
+
 			// TODO: create a stand-alone button next to the player bar instead
-			controls.tokens.tools[MODULE_NAME] = {
-				icon: "fa-solid fa-person-rays",
-				name: MODULE_NAME,
-				title: game.i18n.localize(`${MODULE_NAME}.controlTitle`),
-				visible: game.user.isGM,
-				button: true,
-				order: Object.keys(controls.tokens.tools).length, // Always at the bottom
-				onChange(event, active) {
-					const current = foundry.applications.instances.get(MODULE_NAME);
-					if (current) {
-						current?.close();
-						return;
-					}
-					// Show the tracker
-					new PlayerSpotlight().render({ force: true });
-				},
-			};
 		});
 	}
 });
