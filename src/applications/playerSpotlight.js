@@ -13,16 +13,19 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 	static DEFAULT_OPTIONS = {
+		...super.DEFAULT_OPTIONS,
 		id: MODULE_NAME,
 		tag: "div",
 		window: {
+			...super.DEFAULT_OPTIONS.window,
 			icon: "fa-solid fa-person-rays",
 			resizable: true,
 			title: "fvtt-player-spotlight.controlTitle",
 		},
 		position: {
-			width: 300,
-			height: 250,
+			...super.DEFAULT_OPTIONS.position,
+			width: 280,
+			height: 290,
 		},
 		actions: {
 			spotlight: this.#spotlight,
@@ -80,6 +83,19 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 				PlayerSpotlight.refreshCurrentUI(); // Refresh the full UI to ensure consistency
 			});
 		}
+		Hooks.on("updateUser", (user, change, _options, _userId) => {
+			console.debug("User updated", { user, change });
+			const interestingKeys = new Set([
+				"id",
+				"name",
+				"character",
+				"color",
+				"active",
+			]);
+			if (Object.keys(change).find((k) => interestingKeys.has(k))) {
+				PlayerSpotlight.refreshCurrentUI(); // Refresh the UI to update colors of players
+			}
+		});
 	}
 
 	get sortMode() {
@@ -98,7 +114,8 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 	 * @typedef PlayerData
 	 *
 	 * @property {string} id The `BaseUser`.id
-	 * @property {string} name The formatted name of the user, following NAME_MODE preferences
+	 * @property {string} displayName The formatted name of the user, following NAME_MODE preferences
+	 * @property {string} cssColor The css color for the user
 	 * @property {boolean} visible Whether to show or not this user's data. Follows PLAYER_FILTER, otherwise defaults to true.
 	 */
 
@@ -110,7 +127,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 		const { users } = game;
 		const { players } = users;
 		console.debug("User data for spotlights", { players });
-		const data = players.map(({ id, name, active, character }) => {
+		const data = players.map(({ id, name, active, character, color }) => {
 			const playerName = name;
 			const characterName =
 				character?.name ??
@@ -118,29 +135,30 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 					`${MODULE_NAME}.${NAME_MODE}.${CHARACTER_NAME_FALLBACK}`,
 				); // TODO: study more systems and find fallbacks
 
-			let entryName;
+			let displayName;
 			switch (this.nameMode) {
 				case NAME_MODES.PLAYER:
-					entryName = playerName;
+					displayName = playerName;
 					break;
 				case NAME_MODES.CHARACTER:
-					entryName = characterName;
+					displayName = characterName;
 					break;
 				case NAME_MODES.MIXED:
-					entryName = `${characterName} (${playerName})`;
+					displayName = `${characterName} (${playerName})`;
 					break;
 			}
 
 			return {
 				id,
-				name: entryName,
+				displayName,
+				cssColor: color.css,
 				visible: this.activeFilter ? active : true, // Always visible if active filter is not true
 			};
 		});
 
 		if (this.sortMode === SORT_MODES.STABLE) {
 			// Sort players by their names, alphabetically.
-			data.sort((a, b) => a.name.localeCompare(b.name));
+			data.sort((a, b) => a.displayName.localeCompare(b.displayName));
 		}
 
 		return data;
@@ -157,6 +175,7 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 		const playerData = this.#getPlayerData();
 
 		const result = {
+			sortMode: this.sortMode,
 			players: playerData,
 			session: {
 				current: latestSession.date,
@@ -200,16 +219,24 @@ export class PlayerSpotlight extends HandlebarsApplicationMixin(ApplicationV2) {
 		console.debug("Refreshing Spotlight UI");
 		const contextData = this.#getContextData();
 
-		const spotlightList = this.element.querySelector(".spotlight-list");
+		const spotlightList = this.element.querySelector(
+			"#fvtt-player-spotlight > section > section[data-application-part=spotlight] > ol",
+		);
 		for (const child of spotlightList.children) {
+			const matchingPlayer = contextData.players.find(
+				(p) => p.id === child.dataset.userId,
+			);
+
+			child.dataset.cssColor = matchingPlayer?.cssColor ?? "#000";
+
 			child.dataset.spotlightLatest =
 				child.dataset.userId === contextData.session.lastPlayer;
+
 			child.dataset.spotlightCount =
 				contextData.session.counts[child.dataset.userId];
+
 			if (this.activeFilter) {
-				child.dataset.spotlightVisible = contextData.players.find(
-					(p) => p.id === child.dataset.userId,
-				)?.visible;
+				child.dataset.spotlightVisible = matchingPlayer?.visible ?? false;
 			}
 		}
 

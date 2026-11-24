@@ -1,24 +1,39 @@
-#fvtt-player-spotlight {
-	& section[data-application-part="spotlight"] {
-		height: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: stretch;
+#fvtt-player-spotlight > section.window-content {
+	/* Allow scrolling */
+	overflow-y: auto;
 
-		& > ol.spotlight-list {
+	& section[data-application-part] {
+		display: flex;
+		gap: 0.5em;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	& section[data-application-part="session"] {
+		padding: 0.25em;
+	}
+
+	& section[data-application-part="spotlight"] {
+		/* Cover entire available space */
+		flex-grow: 1;
+		& > ol {
+			/* Cover entire available space */
+			flex-grow: 1;
+
+			display: grid;
+			gap: 1em 0.25em;
+
+			/* Grid of internal rows */
+			grid-template-columns: 2em 1fr auto;
+
 			list-style: none;
 
-			display: flex;
-			flex-direction: row;
-
-			justify-content: center;
-
-			gap: 1em;
-
 			& > li {
-				display: flex;
-				flex-direction: column;
+				display: grid;
+				grid-column: 1 / -1;
+				grid-template-columns: subgrid;
 				align-items: center;
+
 				/* Keep buttons pinned to the top of the screen */
 				justify-content: flex-start;
 
@@ -27,35 +42,17 @@
 					display: none;
 				}
 
-				/* Style the buttons to handle large text */
-				& > button {
-					min-width: 0;
-					width: auto;
-
-					min-height: 2em;
-					height: auto;
-
-					white-space: normal;
-					display: inline-flex;
-					align-items: center;
-					justify-content: center;
-
-					& > p {
-						margin: 0;
-						max-width: 100%;
-						white-space: pre-line;
-						/* overflow: hidden; */
-						text-overflow: ellipsis;
-					}
+				/* Show the icon if the data-spotlight-latest attribute is true */
+				& > i {
+					/* Hide the icon by default */
+					display: inline-block;
+					opacity: 0;
+				}
+				&[data-spotlight-latest="true"] > i {
+					opacity: 1;
 				}
 
-				/* Bar chart background scaled by count */
-				/* If the attribute is present but empty, show explicit 0 */
-				&[data-spotlight-count=""]::after {
-					display: block;
-					content: "(0)";
-				}
-
+				/* Display current value */
 				&::after {
 					display: block;
 					/* Use the attribute value; if it's empty the above rule shows (0) */
@@ -65,34 +62,17 @@
 					padding: 0.25em 1em;
 					min-width: 3em;
 
-					background: rgba(255, 255, 255, 0.1);
-					border-radius: 0.25em;
 					pointer-events: none;
-
-					/* Dynamic height: responsive percentage based on count */
-					height: calc(
-						2em +
-						clamp(
-							0.5em,
-							calc(attr(data-spotlight-count number) / 40 * 100%),
-							100%
-						)
-					);
-
-					/* Animations */
-					transition:
-						height 0.5s ease-in-out,
-						background 0.5s ease-in-out;
+				}
+				&[data-spotlight-count=""]::after {
+					/* If the attribute is present but empty, show explicit 0 */
+					content: "(0)";
 				}
 
-				/* Hide the icon by default */
-				& > button > i {
-					display: none;
-				}
-
-				/* Show the icon if the data-spotlight-latest attribute is true */
-				&[data-spotlight-latest="true"] > button > i {
-					display: inline-block;
+				/* Color the buttons based on player colors */
+				--player-color: attr(data-css-color type(<color>), currentColor);
+				& > button {
+					border: 1px solid var(--player-color);
 				}
 			}
 
@@ -106,18 +86,5 @@
 				}
 			}
 		}
-	}
-
-	& section[data-application-part="session"] {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-
-		padding: 0.25em;
-		gap: 0.5em;
-		/* Match foundry appearance */
-		border-radius: 6px;
-
-		background: rgba(255, 255, 255, 0.1);
 	}
 }

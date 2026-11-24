@@ -1,14 +1,14 @@
 <section>
-    <ol class="spotlight-list" data-spotlight-sort="{{spotlight.sortMode}}">
+    <ol data-spotlight-sort="{{spotlight.sortMode}}">
         {{#each spotlight.players}}
         {{#with this as | player |}}
-        <li data-action="spotlight" data-user-id="{{player.id}}" data-spotlight-visible="{{player.visible}}"
+        <li class="flexrow" data-user-id="{{player.id}}" data-css-color="{{player.cssColor}}"
+            data-spotlight-visible="{{player.visible}}"
             data-spotlight-count="{{lookup ../spotlight.session.counts player.id}}"
             data-spotlight-latest="{{ifThen (eq player.id ../spotlight.session.lastPlayer) 'true' 'false'}}">
-            <button type="button">
-                <p>{{player.name}}</p>
-                <i class="fa-solid fa-star" title="{{localize 'fvtt-player-spotlight.spotlight.latest'}}"></i>
-            </button>
+            <i class="fa-solid fa-star" title="{{localize 'fvtt-player-spotlight.spotlight.latest'}}"></i>
+            <button type="button" class="ellipsis" data-action="spotlight"
+                data-user-id="{{player.id}}">{{player.displayName}}</button>
         </li>
         {{/with}}
         {{/each}}

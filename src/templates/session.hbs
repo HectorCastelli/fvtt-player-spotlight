@@ -1,12 +1,13 @@
 <section>
-    <p>{{localize 'fvtt-player-spotlight.session.current'}}: <span
-            data-spotlight-session-date="spotlight.session.current">
-            {{
-            ifThen spotlight.session.current
-            spotlight.session.currentDate
-            (localize 'fvtt-player-spotlight.session.none')
-            }}
-        </span>
-    </p>
-    <button type="button" data-action="startSession">{{localize 'fvtt-player-spotlight.session.start'}}</button>
+    {{!-- TODO: Allow to pick which session to view --}}
+    <label for="fvtt-spotlight-session-current">{{localize 'fvtt-player-spotlight.session.current'}}:</label>
+    <span id="fvtt-spotlight-session-current" data-spotlight-session-date="{{spotlight.session.current}}">
+        {{
+        ifThen spotlight.session.current
+        spotlight.session.currentDate
+        (localize 'fvtt-player-spotlight.session.none')
+        }}</span>
+
+    <button type="button" class="flexrow ellipsis" data-action="startSession">{{localize
+        'fvtt-player-spotlight.session.start'}}</button>
 </section>
