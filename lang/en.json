@@ -1,22 +1,38 @@
 {
-	"fvtt-player-spotlight.controlTitle": "Player Spotlight",
-	"fvtt-player-spotlight.resetData.title": "Reset Spotlight Data",
-	"fvtt-player-spotlight.resetData.description": "Clears all spotlight data stored so far. This is a non-reversible action.",
-	"fvtt-player-spotlight.sortMode.title": "Spotlight Sorting Mode",
-	"fvtt-player-spotlight.sortMode.description": "How to sort players as spotlight are given and removed.",
-	"fvtt-player-spotlight.sortMode.queue": "Queue",
-	"fvtt-player-spotlight.sortMode.stable": "Stable",
-	"fvtt-player-spotlight.spotlight.latest": "Latest",
-	"fvtt-player-spotlight.sessionAutoStart.title": "Session Auto Start",
-	"fvtt-player-spotlight.sessionAutoStart.description": "If enabled, the module will automatically start a new spotlight session when the window is open and the current date differs from the date of the last registered session.",
-	"fvtt-player-spotlight.session.current": "Current Session",
-	"fvtt-player-spotlight.session.none": "None yet",
-	"fvtt-player-spotlight.session.start": "New Session",
-	"fvtt-player-spotlight.playerFilter.title": "Player filter",
-	"fvtt-player-spotlight.playerFilter.description": "Whether to show only active/connected players on the tracker.",
-	"fvtt-player-spotlight.nameMode.title": "Name Display",
-	"fvtt-player-spotlight.nameMode.description": "How should each player be represented in the tracker?",
-	"fvtt-player-spotlight.nameMode.player": "Player Name",
-	"fvtt-player-spotlight.nameMode.character": "Character Name",
-	"fvtt-player-spotlight.nameMode.mixed": "Mixed (Character + Player Names)"
+	"fvtt-player-spotlight": {
+		"controlTitle": "Player Spotlight",
+		"resetData": {
+			"title": "Reset Spotlight Data",
+			"description": "Clears all spotlight data stored so far. This is a non-reversible action."
+		},
+		"sortMode": {
+			"title": "Spotlight Sorting Mode",
+			"description": "How to sort players as spotlight are given and removed.",
+			"queue": "Queue",
+			"stable": "Stable"
+		},
+		"spotlight": {
+			"latest": "Latest"
+		},
+		"sessionAutoStart": {
+			"title": "Session Auto Start",
+			"description": "If enabled, the module will automatically start a new spotlight session when the window is open and the current date differs from the date of the last registered session."
+		},
+		"session": {
+			"current": "Current Session",
+			"none": "None yet",
+			"start": "New Session"
+		},
+		"playerFilter": {
+			"title": "Player filter",
+			"description": "Whether to show only active/connected players on the tracker."
+		},
+		"nameMode": {
+			"title": "Name Display",
+			"description": "How should each player be represented in the tracker?",
+			"player": "Player Name",
+			"character": "Character Name",
+			"mixed": "Mixed (Character + Player Names)"
+		}
+	}
 }
