@@ -11,9 +11,6 @@ import {
 	SORT_MODES,
 } from "./constants.js";
 
-// Helpers
-const { renderTemplate } = foundry.applications.handlebars;
-
 // Initialization logic
 Hooks.once("init", async () => {
 	console.debug("Initializing player spotlight module", { game, foundry });
