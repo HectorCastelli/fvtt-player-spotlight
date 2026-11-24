@@ -40,8 +40,8 @@ To help you determine who should receive the spotlight next, we offer two modes:
 - `Queue mode`: Whenever a player receives a spotlight, it will be moved to the end of the list. This means that players at the start of the list are the ones that should be considered for a spotlight next!
 - `Stable mode`: Players are sorted by their names, so clicking them will not reorder the list. In this case, you can track the overall count of spotlights, and watch the `star` icon to see who received the spotlight last.
 
-| Queue mode | Stable Mode |
-| :-: | :-: |
+|                   Queue mode                    |                   Stable Mode                    |
+| :---------------------------------------------: | :----------------------------------------------: |
 | [Queue mode in action](./assets/queue-mode.mp4) | [Stable mode in action](./assets/queue-mode.mp4) |
 
 ### Track sessions
@@ -52,7 +52,7 @@ Optionally, this can be done automatically when the date changes by enabling the
 
 ### Track when you spotlight a player
 
-You can *left-click* a player card to indicate they received a spotlight, or *right-click* them to remove or undo a spotlight.
+You can _left-click_ a player card to indicate they received a spotlight, or _right-click_ them to remove or undo a spotlight.
 
 Clicking a player card will always register the spotlight on the most recently created session.
 
