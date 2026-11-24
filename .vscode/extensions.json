@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-cspell-bundled-dictionaries",
+        "timonwong.shellcheck",
+        "mkhl.shfmt"
+    ]
+}
