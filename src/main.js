@@ -17,21 +17,21 @@ Hooks.once("init", async () => {
 
 	// Configure game settings
 	game.settings.register(MODULE_NAME, SORT_MODE, {
-		name: "fvtt-player-spotlight.sortMode.title",
-		hint: "fvtt-player-spotlight.sortMode.description",
+		name: `${MODULE_NAME}.${SORT_MODE}.title`,
+		hint: `${MODULE_NAME}.${SORT_MODE}.description`,
 		scope: "world",
 		config: true,
 		requiresReload: true,
 		type: String,
 		choices: {
-			[SORT_MODES.QUEUE]: "fvtt-player-spotlight.sortMode.queue",
-			[SORT_MODES.STABLE]: "fvtt-player-spotlight.sortMode.stable",
+			[SORT_MODES.QUEUE]: `${MODULE_NAME}.${SORT_MODE}.queue`,
+			[SORT_MODES.STABLE]: `${MODULE_NAME}.${SORT_MODE}.stable`,
 		},
 		default: SORT_MODES.STABLE,
 	});
 	game.settings.register(MODULE_NAME, SESSION_AUTO_START, {
-		name: "fvtt-player-spotlight.sessionAutoStart.title",
-		hint: "fvtt-player-spotlight.sessionAutoStart.description",
+		name: `${MODULE_NAME}.${SESSION_AUTO_START}.title`,
+		hint: `${MODULE_NAME}.${SESSION_AUTO_START}.description`,
 		scope: "world",
 		config: true,
 		requiresReload: true,
@@ -39,8 +39,8 @@ Hooks.once("init", async () => {
 		default: false,
 	});
 	game.settings.register(MODULE_NAME, PLAYER_FILTER, {
-		name: "fvtt-player-spotlight.playerFilter.title",
-		hint: "fvtt-player-spotlight.playerFilter.description",
+		name: `${MODULE_NAME}.${PLAYER_FILTER}.title`,
+		hint: `${MODULE_NAME}.${PLAYER_FILTER}.description`,
 		scope: "world",
 		config: true,
 		requiresReload: true,
@@ -48,24 +48,24 @@ Hooks.once("init", async () => {
 		default: false,
 	});
 	game.settings.register(MODULE_NAME, NAME_MODE, {
-		name: "fvtt-player-spotlight.nameMode.title",
-		hint: "fvtt-player-spotlight.nameMode.description",
+		name: `${MODULE_NAME}.${NAME_MODE}.title`,
+		hint: `${MODULE_NAME}.${NAME_MODE}.description`,
 		scope: "world",
 		config: true,
 		requiresReload: true,
 		type: String,
 		choices: {
-			[NAME_MODES.PLAYER]: "fvtt-player-spotlight.nameMode.player",
-			[NAME_MODES.CHARACTER]: "fvtt-player-spotlight.nameMode.character",
-			[NAME_MODES.MIXED]: "fvtt-player-spotlight.nameMode.mixed",
+			[NAME_MODES.PLAYER]: `${MODULE_NAME}.${NAME_MODE}.player`,
+			[NAME_MODES.CHARACTER]: `${MODULE_NAME}.${NAME_MODE}.character`,
+			[NAME_MODES.MIXED]: `${MODULE_NAME}.${NAME_MODE}.mixed`,
 		},
 		default: NAME_MODES.PLAYER,
 	});
 
 	// Prepare data storage
 	game.settings.register(MODULE_NAME, RESET_DATA, {
-		name: "fvtt-player-spotlight.resetData.title",
-		hint: "fvtt-player-spotlight.resetData.description",
+		name: `${MODULE_NAME}.${RESET_DATA}.title`,
+		hint: `${MODULE_NAME}.${RESET_DATA}.description`,
 		scope: "world",
 		config: true,
 		requiresReload: true,
