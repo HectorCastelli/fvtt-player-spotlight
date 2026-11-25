@@ -21,6 +21,7 @@
 		"check": "biome check",
 		"format": "biome check --write",
 		"foundry:install": "node scripts/foundry-install.js",
+		"foundry:run": "node scripts/foundry-run.js",
 		"foundry:setup": "node scripts/foundry-setup.js",
 		"bundle": "node scripts/bundle.js",
 		"release": "node scripts/release.js",

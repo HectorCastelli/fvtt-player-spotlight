@@ -2,28 +2,12 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Run local FoundryVTT",
-			"program": "${workspaceFolder}/test/local/instance/main.js",
-			"args": ["--dataPath=test/local/data", "--port=31234"],
-			"request": "launch",
-			"skipFiles": ["<node_internals>/**"],
-			"type": "node"
-		},
-		{
 			"type": "editor-browser",
 			"request": "launch",
 			"name": "Open browser on local instance",
 			"url": "http://localhost:31234",
-			"webRoot": "${workspaceFolder}"
-		}
-	],
-	"compounds": [
-		{
-			"name": "Test Local FoundryVTT",
-			"configurations": [
-				"Run local FoundryVTT",
-				"Open browser on local instance"
-			]
+			"webRoot": "${workspaceFolder}",
+			"preLaunchTask": "Start local FoundryVTT"
 		}
 	]
 }

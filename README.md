@@ -104,6 +104,12 @@ npm run foundry:install
 The script prompts for a one-time download URL. It skips downloading when
 `test/local/instance` already matches the module's verified Foundry version.
 
+Start the local instance on <http://localhost:31234> with its local data folder using:
+
+```sh
+npm run foundry:run
+```
+
 Once you have an instance ready, use the setup script with [your Foundry `Data/` folder path](https://foundryvtt.com/article/user-data/), for example:
 
 ```sh
