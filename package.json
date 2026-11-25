@@ -20,7 +20,8 @@
 		"secret:build": "gitleaks dir --redact --no-banner --exit-code 1 --max-archive-depth 1 dist",
 		"check": "biome check",
 		"format": "biome check --write",
-		"localInstall": "node scripts/local-install.js",
+		"foundry:install": "node scripts/foundry-install.js",
+		"foundry:setup": "node scripts/foundry-setup.js",
 		"bundle": "node scripts/bundle.js",
 		"release": "node scripts/release.js",
 		"prepare": "husky"
@@ -30,6 +31,7 @@
 		"husky": "^9.1.7",
 		"semver": "^7.8.6",
 		"simple-git": "^4.1.0",
+		"yauzl": "^3.4.0",
 		"yazl": "^3.3.1"
 	}
 }

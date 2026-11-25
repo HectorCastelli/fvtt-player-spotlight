@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, rmSync, symlinkSync } from "node:fs";
 import { join } from "node:path";
 
-console.log("Installing the module...");
+console.log("Setting up the module...");
 
 // Get foundry instance path from argument
 const foundryDataPath = process.argv[2];

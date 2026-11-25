@@ -92,13 +92,22 @@ Submissions by AI systems without human supervision is not allowed.
 
 ### Development
 
-This repository comes with a [install script](./scripts/local-install.js) that can install the local module version into your instance.
+This repository comes with a [setup script](./scripts/foundry-setup.js) that can install the local module version into your instance.
 This is helpful to test changes as you develop new features.
 
-To use this script, run it with [your Foundry `Data/` folder path](https://foundryvtt.com/article/user-data/), for example:
+If you need to download and install a Foundry Node instance for local testing, run:
 
 ```sh
-npm run localInstall -- /my/foundry/Data
+npm run foundry:install
+```
+
+The script prompts for a one-time download URL. It skips downloading when
+`test/local/instance` already matches the module's verified Foundry version.
+
+Once you have an instance ready, use the setup script with [your Foundry `Data/` folder path](https://foundryvtt.com/article/user-data/), for example:
+
+```sh
+npm run foundry:setup -- /my/foundry/Data
 ```
 
 ### Release process
